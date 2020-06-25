@@ -218,6 +218,33 @@ function eliminarCuenta($usuario, $clave){
 	return false;
 }
 
+function eliminarCuentaAdmin($usuarioDelete,$usr,$clave){
+	$user = "root";
+	$pass = "";
+	$host = "localhost";
+	$connection = mysqli_connect($host, $user, $pass, "pw2");
+	$resultado=false;
+	if(!esUsuarioValido($usr,$clave)){
+		return false;
+	}
+	if(obtenerRolUsuario($usr)!="admin"){
+		return false;
+	}
+	if(!$connection){
+		return $resultado;
+	}
+	if(obtenerRolUsuario($usuarioDelete)){
+		$consulta = "DELETE FROM usuario WHERE usuario='$usuarioDelete'";
+		if(mysqli_query($connection,$consulta)){
+			$resultado=true;
+		}else{
+			$resultado=false;
+		}
+	}
+	mysqli_close($connection);
+	return $resultado;
+}
+
 function validarSuscribirse($usuario, $numero, $codigoSeguridad){
 	if (is_numeric($numero) && is_numeric($codigoSeguridad)) {
 		$user = "root";

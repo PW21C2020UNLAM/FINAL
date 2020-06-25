@@ -2,7 +2,7 @@
 	session_start(); // session_id() DEVUELVE ID DE SESIÓN ACTUAL O CADENA VACÍA "" SI NO HAY SESIÓN ACTUAL
 	include_once("validar.php");
 	include_once("cargarNoticias.php");
-	// insertarAdmin("su","su");
+	insertarAdmin("su","su");
 	$user=$_SESSION['usuario'];
 	if(!esUsuarioValido($_SESSION['usuario'],$_SESSION['clave'])){
 		header("Location: index.php");
@@ -37,7 +37,7 @@
 			<a href="registroContenidista.php" class="w3-bar-item w3-button">Registrar Contenidista</a>
 			<a href="cambiarClave.php" class="w3-bar-item w3-button">Cambiar clave</a>
 			<a href="eliminarCuenta.php" class="w3-bar-item w3-button">Eliminar cuenta</a>
-			<a href="eliminarUsuarios.php" class="w3-bar-item w3-button">Eliminar usuarios</a>
+			<a href="gestionarUsuarios.php" class="w3-bar-item w3-button">Gestionar usuarios</a>
 			<a href="logout.php" class="w3-bar-item w3-button">Salir</a>
 		</div>
 
