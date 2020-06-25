@@ -1,6 +1,5 @@
 <?php
 
-
 function insertarAdmin($usuario, $clave){
 	$user = "root";
 	$pass = "";
@@ -219,11 +218,37 @@ function eliminarCuenta($usuario, $clave){
 	return false;
 }
 
-function validarTarjeta($numero, $codigoSeguridad){
+function validarSuscribirse($usuario, $numero, $codigoSeguridad){
 	if (is_numeric($numero) && is_numeric($codigoSeguridad)) {
-		return true;
-	}else{
+		$user = "root";
+		$pass = "";
+		$host = "localhost";
+
+		$connection = mysqli_connect($host, $user, $pass, "pw2");
+
+		if(!$connection){
+			return "Error del servidor, intente nuevamente más tarde...";
+		}
+		$consulta = "SELECT suscriptor FROM usuario WHERE usuario='$usuario'";
+		$resultado = mysqli_query($connection, $consulta);
+		$columna=mysqli_fetch_array($resultado);
+		if(  $columna['suscriptor']==false ){
+			$consulta = "UPDATE usuario SET suscriptor=true WHERE usuario='$usuario'";
+			if(mysqli_query($connection,$consulta) ){
+				mysqli_close($connection);
+				return "¡Suscripción exitosa!";
+			}else{
+				mysqli_close($connection);
+				return "Error del servidor, intente nuevamente más tarde...";
+			}
+		}else{
+			mysqli_close($connection);
+			return "¡Ya se encuentra suscripto!";
+		}
+		mysqli_close($connection);
 		return false;
+	}else{
+		return "¡Error! Debe ingresar números.";
 	}
 }
 
