@@ -69,7 +69,7 @@
 				<!-- Blog entries -->
 				<div class="w3-col l8 s12">
 
-				<?php mostrarNoticias("./noticias/imagenes/"); ?>
+				<?php mostrarNoticias("./noticias/imagenes/",($_SESSION['usuario'])); ?>
 
 				<!-- END BLOG ENTRIES -->
 				</div>
@@ -141,17 +141,6 @@
 					</div>
 					<hr>
 
-					<!-- Subscribe -->
-					<div class="w3-white w3-margin">
-						<div class="w3-container w3-padding w3-black">
-							<h4>¡Suscríbete a los paquetes premium!</h4>
-						</div>
-						<div class="w3-container w3-white">
-							<p>Suscríbete para acceder al paquete premium utilizando tu tarjeta de crédito.</p>
-							<p><button type="button" onclick="document.getElementById('subscribe').style.display='block'" class="w3-button w3-block w3-red">Suscribirse</button></p>
-						</div>
-					</div>
-
 					<!-- END About/Intro Menu -->
 				</div>
 
@@ -159,22 +148,6 @@
 			</div>
 
 			<!-- END w3-content -->
-		</div>
-
-		<!-- Subscribe Modal -->
-		<div id="subscribe" class="w3-modal w3-animate-opacity">
-			<div class="w3-modal-content" style="padding:32px">
-				<div class="w3-container w3-white">
-					<i onclick="document.getElementById('subscribe').style.display='none'" class="fa fa-remove w3-transparent w3-button w3-xlarge w3-right"></i>
-					<form action="validarSuscripcion.php" method="post" enctype="application/x-www-form-urlencoded">
-						<h2 class="w3-wide">Suscribirse</h2>
-						<p>Completa con los datos de tu tarjeta de crédito para acceder al mejor contenido.</p>
-						<p><input class="w3-input w3-border" name="num" type="text" placeholder="Número de tarjeta" required></p>
-						<p><input class="w3-input w3-border" name="cla" type="password" placeholder="Código de seguridad" required></p>
-						<input class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom" type="submit" value="Enviar"></input>
-					</form>
-				</div>
-			</div>
 		</div>
 
 		<!-- Footer -->

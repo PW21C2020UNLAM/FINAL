@@ -38,11 +38,11 @@
 						<div class="w3-padding-32 w3-center w3-row">			
 							<div class="w3-container  w3-padding w3-light-grey w3-margin-top ">
 								<div class="w3-container w3-black">
-									<h2 class="w3-lobster">Cambio de clave</h2>
+									<h2 class="w3-lobster">Suscribirse</h2>
 								</div>   
-								<form action="validarCambioClave.php" method="post" enctype="application/x-www-form-urlencoded"><br><br>
-									<label class="w3-text-brown">Clave actual:</label> <input class="w3-input w3-border w3-sand" type="password" name="claveActual" required><br><br>
-									<label class="w3-text-brown">Clave nueva:</label> <input class="w3-input w3-border w3-sand" type="password" name="claveNueva" required><br><br>
+								<form action="validarSuscripcion.php" method="post" enctype="application/x-www-form-urlencoded"><br><br>
+									<label class="w3-text-brown">Número de tarjeta</label> <input class="w3-input w3-border w3-sand" type="text" name="num" required><br><br>
+									<label class="w3-text-brown">Código de seguridad</label> <input class="w3-input w3-border w3-sand" type="password" name="cla" required><br><br>
 									<input class="w3-btn w3-black" type="submit" value="Guardar"><br><br>
 								</form>
 							</div>

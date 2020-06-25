@@ -1,28 +1,64 @@
 <?php
 
-function mostrarNoticias($directorio){
+include_once('fpdf/fpdf.php');
+
+function mostrarNoticias($directorio,$usuario){
 	$arrayDirectorio = scandir($directorio, 1);
 	foreach ($arrayDirectorio as &$archivo ){
 		if( $archivo!="." && $archivo!=".." ){
-			imprimirNoticia($archivo,$directorio);
+			echo imprimirNoticia($archivo,$directorio,$usuario);
 		}
 	}
 }
 
-function imprimirNoticia($archivo,$directorio){
+function imprimirNoticia($archivo,$directorio,$usuario){
 	$nombre=str_replace(".jpg",".txt",$archivo);
 	$noticia=obtenerNoticia($nombre,$directorio);
-	echo '<!-- Blog entry --><div class="w3-container w3-white w3-margin w3-padding-large"><div class="w3-center"><h3>';
-	echo $noticia['titulo'];
-	echo '</h3><h5>';
-	echo $noticia['tituloDesc'];
-	echo ', <span class="w3-opacity">';
-	echo $noticia['tituloDesc2'];
-	echo '</span></h5></div><div class="w3-justify"><img src="'.$directorio;
-	echo $noticia['imagenEXT'];
-	echo '" style="width:100%" class="w3-padding-16"><p>';
-	echo $noticia['articulo'];
-	echo '</div></div><hr>';
+	
+	//'<a href="'.$directorio.$archivo.'" class="w3-input w3-border w3-sand" download="noticia.jpg">Descargar Archivo</a>'
+	//'<a href="output.php?t=pdf" target="_blank">Pdf</a>'
+		
+	$enlace=esSuscripto($usuario)?'<form action="mostrarPDF.php" method="post" enctype="application/x-www-form-urlencoded"><br><br>
+										<input type="hidden" name="pdf" value="'.$noticia['titulo']."|".$noticia['tituloDesc']."|".$noticia['tituloDesc2']."|".$directorio.$noticia['imagenEXT']."|".$noticia['articulo'].'"/>
+										
+										<input class="w3-btn w3-black" type="submit" value="Descargar como PDF"><br><br>
+									</form>'
+								
+								:'<a href="./suscribirse.php" class="w3-btn w3-black">Descargar como PDF</a>';
+
+	return '<!-- Blog entry --><div class="w3-container w3-white w3-margin w3-padding-large"><div class="w3-center"><h3>'.$noticia['titulo'].'</h3><h5>'.$noticia['tituloDesc'].', <span class="w3-opacity">'.$noticia['tituloDesc2'].'</span></h5></div><div class="w3-justify"><img src="'.$directorio.$noticia['imagenEXT'].'" style="width:100%" class="w3-padding-16"><p>'.$noticia['articulo'].'</p></div>'.$enlace.'</div><hr>';
+}
+
+function esSuscripto($usuario){
+	$user = "root";
+	$pass = "";
+	$host = "localhost";
+
+	$connection = mysqli_connect($host, $user, $pass);
+
+	if(!$connection){
+		return false;
+	}else{
+		$datab = "pw2";
+		$db = mysqli_select_db($connection,$datab);
+		if (!$db){
+			echo "Error al acceder a la base de datos";
+			mysqli_close($connection);
+			return false;
+		}else{
+			$consulta = "SELECT suscriptor FROM usuario WHERE usuario='$usuario'";
+			$resultado = mysqli_query($connection, $consulta);
+			if ($resultado) {
+				$columna=mysqli_fetch_array($resultado);
+				if($columna['suscriptor']==true){
+					mysqli_close($connection);
+					return true;
+				}
+			}
+		}
+		mysqli_close($connection);
+	}
+	return false;
 }
 
 function obtenerNoticia($nombreArchivo,$directorio){

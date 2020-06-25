@@ -69,7 +69,7 @@
 				<!-- Blog entries -->
 				<div class="w3-col l8 s12">
 
-				<?php mostrarNoticias("./noticias/imagenes/"); ?>
+				<?php mostrarNoticias("./noticias/imagenes/",($_SESSION['usuario'])); ?>
 
 				<!-- END BLOG ENTRIES -->
 				</div>
@@ -140,17 +140,6 @@
 						</div>
 					</div>
 					<hr>
-
-					<!-- Subscribe -->
-					<div class="w3-white w3-margin">
-						<div class="w3-container w3-padding w3-black">
-							<h4>¡Suscríbete a los paquetes premium!</h4>
-						</div>
-						<div class="w3-container w3-white">
-							<p>Suscríbete para acceder al paquete premium utilizando tu tarjeta de crédito.</p>
-							<p><button type="button" onclick="document.getElementById('subscribe').style.display='block'" class="w3-button w3-block w3-red">Suscribirse</button></p>
-						</div>
-					</div>
 
 					<!-- END About/Intro Menu -->
 				</div>

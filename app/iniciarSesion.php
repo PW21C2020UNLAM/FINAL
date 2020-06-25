@@ -1,3 +1,16 @@
+<?php
+	session_start(); // session_id() DEVUELVE ID DE SESIÓN ACTUAL O CADENA VACÍA "" SI NO HAY SESIÓN ACTUAL
+	include_once("validar.php");
+	include_once("cargarNoticias.php");
+	// insertarAdmin("su","su");
+	if(isset($_SESSION['usuario'])){
+		if(esUsuarioValido($_SESSION['usuario'],$_SESSION['clave'])){
+			$rol=obtenerRolUsuario($_SESSION['usuario']);
+			header(headerSegunRol($rol));
+		}
+	}
+?>
+
 <!DOCTYPE html>
 <html>
 	<title>Infonete S.A</title>
