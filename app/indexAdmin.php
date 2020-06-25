@@ -30,25 +30,15 @@
 	</style>
 
 	<body class="w3-light-grey">
-
 		<!-- Navigation bar with social media icons -->
 		<div class="w3-bar w3-black w3-hide-small">
 			<div class="w3-bar-item">Admin: <?php echo $user?></div>
+			<a href="noticiasPendientes.php" class="w3-bar-item w3-button">Gestionar noticias</a>
 			<a href="registroContenidista.php" class="w3-bar-item w3-button">Registrar Contenidista</a>
 			<a href="cambiarClave.php" class="w3-bar-item w3-button">Cambiar clave</a>
 			<a href="eliminarCuenta.php" class="w3-bar-item w3-button">Eliminar cuenta</a>
+			<a href="eliminarUsuarios.php" class="w3-bar-item w3-button">Eliminar usuarios</a>
 			<a href="logout.php" class="w3-bar-item w3-button">Salir</a>
-			
-			<!--
-			<a href="#" class="w3-bar-item w3-button"><i class="fa fa-facebook-official"></i></a>
-			<a href="#" class="w3-bar-item w3-button"><i class="fa fa-instagram"></i></a>
-			<a href="#" class="w3-bar-item w3-button"><i class="fa fa-snapchat"></i></a>
-			<a href="#" class="w3-bar-item w3-button"><i class="fa fa-flickr"></i></a>
-			<a href="#" class="w3-bar-item w3-button"><i class="fa fa-twitter"></i></a>
-			<a href="#" class="w3-bar-item w3-button"><i class="fa fa-linkedin"></i></a>
-			<a href="#" class="w3-bar-item w3-button w3-right"><i class="fa fa-search"></i></a>
-			-->
-			
 		</div>
 
 		<!-- w3-content defines a container for fixed size centered content, 
@@ -79,7 +69,7 @@
 				<!-- Blog entries -->
 				<div class="w3-col l8 s12">
 
-				<?php mostrarNoticias(); ?>
+				<?php mostrarNoticias("./noticias/imagenes/"); ?>
 
 				<!-- END BLOG ENTRIES -->
 				</div>

@@ -1,5 +1,6 @@
 <?php
 
+
 function insertarAdmin($usuario, $clave){
 	$user = "root";
 	$pass = "";
@@ -264,3 +265,4 @@ function headerSegunRol($rol){
 		return "Location: index".$rol.".php";
 	}
 }
+

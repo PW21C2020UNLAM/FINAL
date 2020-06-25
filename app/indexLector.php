@@ -80,7 +80,7 @@
 				<!-- Blog entries -->
 				<div class="w3-col l8 s12">
 
-				<?php mostrarNoticias(); ?>
+				<?php mostrarNoticias("./noticias/imagenes/"); ?>
 
 				<!-- END BLOG ENTRIES -->
 				</div>
