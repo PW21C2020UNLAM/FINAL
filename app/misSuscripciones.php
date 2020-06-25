@@ -6,6 +6,9 @@
 	if(!esUsuarioValido($_SESSION['usuario'],$_SESSION['clave'])){
 		header("Location: index.php");
 	}
+	if(isset($_POST['eliminarSuscripcion'])){
+		eliminarSuscripcion($_SESSION['usuario']);
+	}
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +55,7 @@
 								<div class="w3-container w3-black">
 									<h2 class="w3-lobster">Actualmente posee las siguientes suscripciones:</h2>
 								</div>   
-								<form action="indexLector.php" method="post" enctype="application/x-www-form-urlencoded"><br><br>
+								<form action="misSuscripciones.php" method="post" enctype="application/x-www-form-urlencoded"><br><br>
 									<label class="w3-text-black"><?php echo consultarSuscripciones($_SESSION['usuario']);?>
 								</form>
 							</div>

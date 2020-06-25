@@ -67,11 +67,11 @@ function imprimirNoticiaPendiente($archivo,$directorio){
 	echo $noticia['articulo'];
 	echo '</div>  
 								<form action="aceptarNoticia.php" method="post" enctype="application/x-www-form-urlencoded">
-									<input type="hidden" name="directorio" value="'.$nombre.'" />
+									<input type="hidden" name="directorio" value="'.$nombre.'"/>
 									<input class="w3-btn w3-black" type="submit" value="Validar noticia">
 								</form><br>
 								<form action="rechazarNoticia.php" method="post" enctype="application/x-www-form-urlencoded">
-									<input type="hidden" name="directorio" value="'.$nombre.'" />
+									<input type="hidden" name="directorio" value="'.$nombre.'"/>
 									<input class="w3-btn w3-black" type="submit" value="Rechazar noticia">
 								</form>
 							</div>

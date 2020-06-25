@@ -77,7 +77,7 @@
 					<label for="lname">Fecha de la noticia (formato DD de MES de AAAA):</label>
 					<input type="text" id="date" name="fechaForm" placeholder="Escribe la fecha de la noticia..."required>
 					
-					<input type="hidden" name="MAX_FILE_SIZE" value="10000000" />
+					<input type="hidden" name="MAX_FILE_SIZE" value="10000000"/>
 					<label for="lname">Subir imagen:</label><br><br>
 					<input type="file" name="imagenForm" accept="image/*" required><br><br>
 					
