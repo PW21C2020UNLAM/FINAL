@@ -28,17 +28,6 @@
 		<div class="w3-bar w3-black w3-hide-small">
 			<a href="contacto.php" class="w3-bar-item w3-button">Contacto</a>
 			<a href="index.php" class="w3-bar-item w3-button">Volver</a>
-			
-			<!--
-			<a href="#" class="w3-bar-item w3-button"><i class="fa fa-facebook-official"></i></a>
-			<a href="#" class="w3-bar-item w3-button"><i class="fa fa-instagram"></i></a>
-			<a href="#" class="w3-bar-item w3-button"><i class="fa fa-snapchat"></i></a>
-			<a href="#" class="w3-bar-item w3-button"><i class="fa fa-flickr"></i></a>
-			<a href="#" class="w3-bar-item w3-button"><i class="fa fa-twitter"></i></a>
-			<a href="#" class="w3-bar-item w3-button"><i class="fa fa-linkedin"></i></a>
-			<a href="#" class="w3-bar-item w3-button w3-right"><i class="fa fa-search"></i></a>
-			-->
-			
 		</div>
 
 		<!-- w3-content defines a container for fixed size centered content, 
