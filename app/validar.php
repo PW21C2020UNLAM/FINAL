@@ -92,7 +92,7 @@ function validarInsert($usuario, $clave, $email){
 			return "no_ok";
 		}else{
 			$clave = md5($clave);
-			$sql = "INSERT INTO usuario (usuario, clave, email, rol) VALUES ('$usuario', '$clave', '$email', 'lector')";
+			$sql = "INSERT INTO usuario (usuario, clave, email, rol, suscriptor) VALUES ('$usuario', '$clave', '$email', 'lector', true)";
 			if (mysqli_query($connection, $sql)) {
 				echo "¡Usuario creado exitosamente!";
 			} else {
@@ -113,6 +113,15 @@ function mostrarMensaje($mensaje){
 		echo '</label><a href="iniciarSesion.php"><input class="w3-btn w3-black" type="submit" value="¡Iniciar sesión ahora!"></a>';
 	}else{
 		echo '</label><br><br> <a href="registro.php"><input class="w3-btn w3-black" type="submit" value="Volver a registro"></a>';
+	}
+}
+
+function mostrarMensajeRegistroContenidista($mensaje){
+	echo '<br><br> <label class="w3-text-brown"> ';									
+	if( $mensaje!='no_ok' ){
+		echo $mensaje.'<br><br>';
+	}else{
+		echo '</label><br><br> <a href="registroContenidista.php"><input class="w3-btn w3-black" type="submit" value="Volver a registro"></a>';
 	}
 }
 
@@ -214,5 +223,44 @@ function validarTarjeta($numero, $codigoSeguridad){
 		return true;
 	}else{
 		return false;
+	}
+}
+
+function obtenerRolUsuario($userName){
+	$user = "root";
+	$pass = "";
+	$host = "localhost";
+
+	$connection = mysqli_connect($host, $user, $pass);
+
+	if(!$connection){
+		return null;
+	}else{
+		$datab = "pw2";
+		$db = mysqli_select_db($connection,$datab);
+		if (!$db){
+			echo "Error al acceder a la base de datos";
+			mysqli_close($connection);
+			return null;
+		}else{
+			$consulta = "SELECT rol FROM usuario WHERE usuario='$userName'";
+			$resultado = mysqli_query($connection, $consulta);
+			if ($resultado) {
+				$columna=mysqli_fetch_array($resultado);
+				if($columna){
+						mysqli_close($connection);
+						return $columna['rol'];
+					}
+			}
+		}
+		mysqli_close($connection);
+	}
+	return null;
+}
+
+function headerSegunRol($rol){
+	if($rol){
+		$rol=ucfirst($rol);
+		return "Location: index".$rol.".php";
 	}
 }

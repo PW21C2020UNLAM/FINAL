@@ -6,6 +6,11 @@
 	$user=$_SESSION['usuario'];
 	if(!esUsuarioValido($_SESSION['usuario'],$_SESSION['clave'])){
 		header("Location: index.php");
+	}else{
+		$rol=obtenerRolUsuario($_SESSION['usuario']);
+		if($rol!="lector"){
+			header(headerSegunRol($rol));
+		}
 	}
 ?>
 
@@ -184,9 +189,7 @@
 		</div>
 
 		<!-- Footer -->
-		<footer class="w3-container w3-dark-grey" style="padding:32px">
-			<p>Pereyra, Maximiliano Gastón</p>
-		</footer>
+		<footer class="w3-container w3-dark-grey" style="padding:32px"><p>Pereyra, Maximiliano Gastón</p><p>DNI: 39.756.173</p><p>Programación Móvil II</p></footer>
 		
 	</body>
 </html>

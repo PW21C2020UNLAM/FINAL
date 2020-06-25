@@ -1,11 +1,10 @@
 <?php
-	//session_write_close();
-	//session_unset();
-	//session_destroy();
 	session_start();
-	//$user = session_id();
+	include_once("validar.php");
+	include_once("cargarNoticias.php");
 	if (isset($_SESSION['usuario'])) {
-		header("Location: indexLector.php");
+		$rol=obtenerRolUsuario($_SESSION['usuario']);
+		header(headerSegunRol($rol));
 	}
 ?>
 
