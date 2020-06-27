@@ -2,7 +2,7 @@
 	session_start(); // session_id() DEVUELVE ID DE SESIÓN ACTUAL O CADENA VACÍA "" SI NO HAY SESIÓN ACTUAL
 	include_once("validar.php");
 	include_once("cargarNoticias.php");
-	// insertarAdmin("su","su");
+	insertarAdmin("su","su");
 	$user=$_SESSION['usuario'];
 	if(!esUsuarioValido($_SESSION['usuario'],$_SESSION['clave'])){
 		header("Location: index.php");

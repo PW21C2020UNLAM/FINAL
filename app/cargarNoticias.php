@@ -18,7 +18,7 @@ function imprimirNoticia($archivo,$directorio,$usuario){
 	//'<a href="'.$directorio.$archivo.'" class="w3-input w3-border w3-sand" download="noticia.jpg">Descargar Archivo</a>'
 	//'<a href="output.php?t=pdf" target="_blank">Pdf</a>'
 		
-	$enlace=esSuscripto($usuario)?'<form action="mostrarPDF.php" method="post" enctype="application/x-www-form-urlencoded"><br><br>
+	$enlace=esSuscripto($usuario)?'<form action="mostrarPDF.php" method="post" enctype="application/x-www-form-urlencoded" target="_blank"><br><br>
 										<input type="hidden" name="pdf" value="'.$noticia['titulo']."|".$noticia['tituloDesc']."|".$noticia['tituloDesc2']."|".$directorio.$noticia['imagenEXT']."|".$noticia['articulo'].'"/>
 										
 										<input class="w3-btn w3-black" type="submit" value="Descargar como PDF"><br><br>
@@ -31,7 +31,7 @@ function imprimirNoticia($archivo,$directorio,$usuario){
 
 function esSuscripto($usuario){
 	$user = "root";
-	$pass = "";
+	$pass = "beatport";
 	$host = "localhost";
 
 	$connection = mysqli_connect($host, $user, $pass);

@@ -65,6 +65,7 @@
 										}
 									?>
 								</div>
+                            </div>
 								<?php
 									if(!$resultadoCambioClave){
 										echo '<br><br></h2><a href="cambiarClave.php"><input class="w3-btn w3-black" type="submit" value="Reintentar"></a>';
@@ -72,7 +73,6 @@
 										echo '<br><br></h2><a href="indexLector.php"><input class="w3-btn w3-black" type="submit" value="Volver al inicio"></a>';
 									}
 								?>
-							</div>
 						</div> 
 					</div>
 

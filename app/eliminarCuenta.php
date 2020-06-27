@@ -53,7 +53,7 @@
 								</div>   
 								<form action="validarEliminarCuenta.php" method="post" enctype="application/x-www-form-urlencoded"><br><br>
 									<label class="w3-text-brown">Ingrese su clave:</label> <input class="w3-input w3-border w3-sand" type="password" name="clave" required><br><br>
-									<input class="w3-btn w3-black" type="submit" value="Confirmar"><br><br>
+									<input class="w3-btn w3-black" type="submit" value="Confirmar">&nbsp;&nbsp;&nbsp;<a href="miPerfil.php" class="w3-btn w3-black">Cancelar</a><br><br>
 								</form>
 							</div>
 						</div> 
