@@ -2,7 +2,7 @@
 	// renombrar archivo como "mostrarSuscripciones()" -> hacer consulta a la base de datos y que muestre, de haber alguna, las suscripciones disponibles
 function consultarSuscripciones($usuario){
 	$user = "root";
-	$pass = "";
+	$pass = "beatport";
 	$host = "localhost";
 
 	$connection = mysqli_connect($host, $user, $pass, "pw2");
@@ -24,7 +24,7 @@ function consultarSuscripciones($usuario){
 
 function eliminarSuscripcion($usuario){
 	$user = "root";
-	$pass = "";
+	$pass = "beatport";
 	$host = "localhost";
 
 	$connection = mysqli_connect($host, $user, $pass, "pw2");

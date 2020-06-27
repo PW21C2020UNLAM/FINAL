@@ -33,24 +33,24 @@
 		<!-- w3-content defines a container for fixed size centered content, 
 		and is wrapped around the whole page content, except for the footer in this example -->
 		<div class="w3-content" style="max-width:1600px">
-					<!-- Registro -->
-					<div class="w3-content w3-af" id="contenedorForm">
-						<div class="w3-padding-32 w3-center w3-row">			
-							<div class="w3-container  w3-padding w3-light-grey w3-margin-top ">
-								<div class="w3-container w3-black">
-									<h2 class="w3-lobster">Cambio de clave</h2>
-								</div>   
-								<form action="validarCambioClave.php" method="post" enctype="application/x-www-form-urlencoded"><br><br>
-									<label class="w3-text-brown">Clave actual:</label> <input class="w3-input w3-border w3-sand" type="password" name="claveActual" required><br><br>
-									<label class="w3-text-brown">Clave nueva:</label> <input class="w3-input w3-border w3-sand" type="password" name="claveNueva" required><br><br>
-									<input class="w3-btn w3-black" type="submit" value="Guardar"><br><br>
-								</form>
-							</div>
-						</div> 
-					</div>
+            <!-- Registro -->
+            <div class="w3-content w3-af" id="contenedorForm">
+                <div class="w3-padding-32 w3-center w3-row">
+                    <div class="w3-container  w3-padding w3-light-grey w3-margin-top ">
+                        <div class="w3-container w3-black">
+                            <h2 class="w3-lobster">Cambio de clave</h2>
+                        </div>
+                        <form action="validarCambioClave.php" method="post" enctype="application/x-www-form-urlencoded"><br><br>
+                            <label class="w3-text-brown">Clave actual:</label> <input class="w3-input w3-border w3-sand" type="password" name="claveActual" required><br><br>
+                            <label class="w3-text-brown">Clave nueva:</label> <input class="w3-input w3-border w3-sand" type="password" name="claveNueva" required><br><br>
+                            <input class="w3-btn w3-black" type="submit" value="Guardar">&nbsp;&nbsp;&nbsp;<a href="miPerfil.php" class="w3-btn w3-black">Cancelar</a><br><br>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
-			<!-- END w3-content -->
-		</div>
+            <!-- END w3-content -->
+        </div>
 
 		<!-- Footer -->
 		<footer class="w3-container w3-dark-grey" style="padding:32px"><p>Pereyra, Maximiliano Gastón</p><p>DNI: 39.756.173</p><p>Programación Móvil II</p></footer>

@@ -34,10 +34,8 @@
 		<!-- Navigation bar with social media icons -->
 		<div class="w3-bar w3-black w3-hide-small">
 			<div class="w3-bar-item">Usuario: <?php echo $user?></div>
-			<a href="contacto.php" class="w3-bar-item w3-button">Contacto</a>
-			<a href="cambiarClave.php" class="w3-bar-item w3-button">Cambiar clave</a>
+            <a href="miPerfil.php" class="w3-bar-item w3-button">Mi Perfil</a>
 			<a href="misSuscripciones.php" class="w3-bar-item w3-button">Mis suscripciones</a>
-			<a href="eliminarCuenta.php" class="w3-bar-item w3-button">Eliminar cuenta</a>
 			<a href="logout.php" class="w3-bar-item w3-button">Salir</a>
 			
 			<!--
@@ -188,8 +186,27 @@
 			</div>
 		</div>
 
-		<!-- Footer -->
-		<footer class="w3-container w3-dark-grey" style="padding:32px"><p>Pereyra, Maximiliano Gastón</p><p>DNI: 39.756.173</p><p>Programación Móvil II</p></footer>
-		
+        <!-- Footer -->
+        <footer class="w3-container" style="padding:32px; background-color:black; color:white; display:inline-flex; width:100%">
+            <div style="padding-left:10%;">
+                <b>Infonete S.A.</b><br>
+                <a href="index.php" style="text-decoration:none">Inicio</a><br>
+                <a href="contacto.php" style="text-decoration:none">Contacto</a><br>
+                <a href="mailto:redaccion@infonete.com" style="text-decoration:none">Redacción</a><br>
+                <a href="mailto:comercial@infonete.com" style="text-decoration:none">Comercial</a>
+            </div>
+            <div style="padding-left:26%;">
+                <b>Redes Sociales</b><br>
+                <a href="http://www.instagram.com" style="text-decoration:none">Instagram</a><br>
+                <a href="http://www.facebook.com" style="text-decoration:none">Facebook</a><br>
+                <a href="http://www.twitter.com" style="text-decoration:none">Twitter</a>
+            </div>
+            <div style="padding-left:26%;">
+                <b>Alumnos</b><br>
+                Pereyra, Maximiliano<br>
+                Rodriguez, Sebastian<br>
+                Ovejero, Emiliano
+            </div>
+        </footer>
 	</body>
 </html>

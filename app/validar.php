@@ -2,7 +2,7 @@
 
 function insertarAdmin($usuario, $clave){
 	$user = "root";
-	$pass = "";
+	$pass = "beatport";
 	$host = "localhost";
 	$email = "administracion@infonete.com";
 
@@ -33,7 +33,7 @@ function insertarAdmin($usuario, $clave){
 
 function registrarContenidista($usuario, $clave, $email){
 	$user = "root";
-	$pass = "";
+	$pass = "beatport";
 	$host = "localhost";
 
 	$connection = mysqli_connect($host, $user, $pass);
@@ -75,7 +75,7 @@ function validarMail($email){
 
 function validarInsert($usuario, $clave, $email){
 	$user = "root";
-	$pass = "";
+	$pass = "beatport";
 	$host = "localhost";
 
 	$connection = mysqli_connect($host, $user, $pass);
@@ -127,7 +127,7 @@ function mostrarMensajeRegistroContenidista($mensaje){
 
 function esUsuarioValido($usuarioIngresado,$claveIngresada){
 	$user = "root";
-	$pass = "";
+	$pass = "beatport";
 	$host = "localhost";
 
 	$connection = mysqli_connect($host, $user, $pass);
@@ -159,7 +159,7 @@ function esUsuarioValido($usuarioIngresado,$claveIngresada){
 
 function cambiarClave($claveAnterior,$claveNueva,$usuario){
 	$user = "root";
-	$pass = "";
+	$pass = "beatport";
 	$host = "localhost";
 
 	$connection = mysqli_connect($host, $user, $pass, "pw2");
@@ -190,7 +190,7 @@ function cambiarClave($claveAnterior,$claveNueva,$usuario){
 
 function eliminarCuenta($usuario, $clave){
 	$user = "root";
-	$pass = "";
+	$pass = "beatport";
 	$host = "localhost";
 
 	$connection = mysqli_connect($host, $user, $pass, "pw2");
@@ -220,7 +220,7 @@ function eliminarCuenta($usuario, $clave){
 
 function eliminarCuentaAdmin($usuarioDelete,$usr,$clave){
 	$user = "root";
-	$pass = "";
+	$pass = "beatport";
 	$host = "localhost";
 	$connection = mysqli_connect($host, $user, $pass, "pw2");
 	$resultado=false;
@@ -248,7 +248,7 @@ function eliminarCuentaAdmin($usuarioDelete,$usr,$clave){
 function validarSuscribirse($usuario, $numero, $codigoSeguridad){
 	if (is_numeric($numero) && is_numeric($codigoSeguridad)) {
 		$user = "root";
-		$pass = "";
+		$pass = "beatport";
 		$host = "localhost";
 
 		$connection = mysqli_connect($host, $user, $pass, "pw2");
@@ -281,7 +281,7 @@ function validarSuscribirse($usuario, $numero, $codigoSeguridad){
 
 function obtenerRolUsuario($userName){
 	$user = "root";
-	$pass = "";
+	$pass = "beatport";
 	$host = "localhost";
 
 	$connection = mysqli_connect($host, $user, $pass);
@@ -318,3 +318,38 @@ function headerSegunRol($rol){
 	}
 }
 
+function cambiarEmail($emailNuevo,$usuario){
+    $user = "root";
+    $pass = "beatport";
+    $host = "localhost";
+
+    $connection = mysqli_connect($host, $user, $pass, "pw2");
+
+    if(!$connection){
+        return false;
+    }
+
+    if (filter_var($emailNuevo, FILTER_VALIDATE_EMAIL)){
+        $emailInexistente = true;
+        $consulta = "SELECT email FROM usuario";
+        $resultado = mysqli_query($connection, $consulta);
+        while($emails = $resultado->fetch_assoc()){
+            if ($emails['email'] == $emailNuevo){
+                $emailInexistente = false;
+            }
+        }
+        if($emailInexistente){
+        $consulta = "UPDATE usuario SET email='$emailNuevo' WHERE usuario='$usuario'";
+        if(mysqli_query($connection,$consulta) ){
+            mysqli_close($connection);
+            return true;
+        }else{
+            mysqli_close($connection);
+            return false;
+        }} else {
+                mysqli_close($connection);
+                return false;
+        }
+    }
+
+}
