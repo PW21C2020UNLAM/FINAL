@@ -89,6 +89,8 @@ function mostrarNoticiaPendienteDeAprobacion(){
 				$columna=mysqli_fetch_array($resultado, MYSQLI_NUM);
 				if(isset($columna[0])){
 					echo imprimirNoticiaPendiente($columna[0].'.jpg', '../noticiasPendientes/imagenes/');
+				}else{
+					echo "No hay noticias pendientes de aprobación...";
 				}
 			}
 		}
