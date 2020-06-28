@@ -1,11 +1,11 @@
 <?php
 	session_start();
-	// include_once("controladores/validar.php");
 	if (isset($_SESSION['usuario'])) {
 		// $rol=obtenerRolUsuario($_SESSION['usuario']);
 		// header(headerSegunRol($rol));
-	header("Location: vistas/indexLector.php");
+		header("Location: vistas/indexLector.php");
 	}
+	include_once("controladores/validar.php");
 ?>
 
 <!DOCTYPE html>
