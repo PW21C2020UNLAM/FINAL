@@ -2,13 +2,78 @@
 
 include_once('../fpdf/fpdf.php');
 
-function mostrarNoticias($directorio,$usuario){
-	$arrayDirectorio = scandir($directorio, 1);
+function mostrarNoticias($usuario){
+	// $arrayDirectorio = scandir("../noticias/imagenes", 1); -> Todos los ID's de noticias + ".jpg"
+	$arrayDirectorio = obtenerNoticiasSegunUsuario($usuario); // Debe contener todas las rutas de las imagenes de noticias
 	foreach ($arrayDirectorio as &$archivo ){
-		if( $archivo!="." && $archivo!=".." ){
-			echo imprimirNoticia($archivo,$directorio,$usuario);
-		}
+		echo imprimirNoticia($archivo,"../noticias/imagenes/",$usuario);
 	}
+}
+
+function obtenerNoticiasSegunUsuario($usuario){
+	$credenciales=obtenerCredencialesArchivoINI("../database.ini");
+	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'], 'pw2');
+	if($connection){
+		$datab = "pw2";
+		$db = mysqli_select_db($connection, $datab);
+		if (!$db){
+			mysqli_close($connection);
+			echo "No se encontraron noticias para el usuario actual...";
+			return null;
+		}else{
+			$suscripto = obtenerSuscripcion($usuario);
+			$consulta="";
+			if($suscripto){
+				$consulta = "SELECT idNoticia FROM noticias WHERE estado='aceptada' ORDER BY idNoticia DESC";
+			}else{
+				$consulta = "SELECT idNoticia FROM noticias WHERE estado='aceptada' AND esPremium=false ORDER BY idNoticia ASC";
+			}
+			$resultado = mysqli_query($connection, $consulta);
+			$retorno;
+			if ($resultado) {
+				while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC)){
+					$nuevo_array[]=$fila;
+				}
+				foreach($nuevo_array as $fila){
+					foreach($fila as $columna ){
+						$columna=$columna.'.jpg';
+						$retorno[]=$columna;
+					}
+				}
+				mysqli_close($connection);
+				return $retorno;
+			}
+		}
+		mysqli_close($connection);
+	}else{
+		echo "No se encontraron noticias para el usuario actual...";
+		return null;
+	}
+}
+
+function obtenerSuscripcion($usuario){ // retorna true o false indicando si está suscripto o no...
+	$credenciales=obtenerCredencialesArchivoINI("../database.ini");
+	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'], 'pw2');
+	if($connection){
+		$datab = "pw2";
+		$db = mysqli_select_db($connection, $datab);
+		if (!$db){
+			mysqli_close($connection);
+			return false;
+		}else{
+			$consulta = "SELECT suscriptor FROM usuario WHERE usuario='$usuario'";
+			$resultado = mysqli_query($connection, $consulta);
+			if ($resultado) {
+				$columna=mysqli_fetch_array($resultado);
+				if(isset($columna['suscriptor'])){
+					mysqli_close($connection);
+					return $columna['suscriptor'];
+				}
+			}
+		}
+		mysqli_close($connection);
+	}
+	return false;
 }
 
 function imprimirNoticia($archivo, $directorio, $usuario){

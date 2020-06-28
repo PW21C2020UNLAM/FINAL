@@ -70,7 +70,7 @@
 				<!-- Blog entries -->
 				<div class="w3-col l8 s12">
 
-				<?php mostrarNoticias("../noticias/imagenes/",($_SESSION['usuario'])); ?>
+				<?php mostrarNoticias(($_SESSION['usuario'])); ?>
 
 				<!-- END BLOG ENTRIES -->
 				</div>

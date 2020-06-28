@@ -4,6 +4,11 @@
 	$user=$_SESSION['usuario'];
 	if(!esUsuarioValido($_SESSION['usuario'],$_SESSION['clave'])){
 		header("Location: ../index.php");
+	}else{
+		$rol=obtenerRolUsuario($_SESSION['usuario']);
+		if($rol!="lector"){
+			header(headerSegunRol($rol));
+		}
 	}
 ?>
 
