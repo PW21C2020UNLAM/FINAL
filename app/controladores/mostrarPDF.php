@@ -71,7 +71,7 @@
 	}
 	
 	if(isset($_POST['pdf'])){
-		
+		contarDescargas($_POST['usuario'], $_POST['idNoticia']);
 		$pdf=new PDF();
 		$pdf->SetTitle($noticia['titulo']);
 		$pdf->SetY(65);
@@ -86,4 +86,36 @@
 			header("Location: index".$rol.".php");
 		}
 	}
+	
+	function contarDescargas($usuario, $idNoticia){
+		$rol=obtenerRolUsuario($usuario);
+		if($rol=='admin'||$rol=='contenidista'){
+			return;
+		}else{
+			$credenciales=obtenerCredencialesArchivoINI("../database.ini");
+			$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'],'pw2');
+			if($connection){
+				$datab = "pw2";
+				$db = mysqli_select_db($connection,$datab);
+				if (!$db){
+					mysqli_close($connection);
+					return;
+				}else{
+					$consulta = "SELECT * FROM noticias WHERE idNoticia='$idNoticia'";
+					$resultado = mysqli_query($connection, $consulta);
+					if ($resultado) {
+						$fila = mysqli_fetch_array($resultado);
+						if(isset($fila['cantidadDescargas'])){
+							$cantDescargas = $fila['cantidadDescargas'];
+							$cantDescargas++;
+							$consulta = "UPDATE noticias SET cantidadDescargas=$cantDescargas WHERE idNoticia='$idNoticia'";
+							$resultado = mysqli_query($connection, $consulta);
+						}
+					}
+				}
+				mysqli_close($connection);
+			}			
+		}
+	}
+	
 ?>

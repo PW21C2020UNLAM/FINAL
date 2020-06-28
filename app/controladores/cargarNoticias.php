@@ -14,9 +14,12 @@ function mostrarNoticias($directorio,$usuario){
 function imprimirNoticia($archivo, $directorio, $usuario){
 	$nombre=str_replace(".jpg",".txt",$archivo);
 	$noticia=obtenerNoticia($nombre, $directorio);
+	$idNoticia=str_replace(".jpg","",$archivo);
 	
 	$enlace=esSuscripto($usuario)?'<form action="../controladores/mostrarPDF.php" method="post" enctype="application/x-www-form-urlencoded" target="_blank"><br><br>
 										<input type="hidden" name="pdf" value="'.$noticia['titulo']."|".$noticia['tituloDesc']."|".$noticia['tituloDesc2']."|".$directorio.$noticia['imagenEXT']."|".$noticia['articulo'].'"/>
+										<input type="hidden" name="usuario" value="'.$usuario.'"/>
+										<input type="hidden" name="idNoticia" value="'.$idNoticia.'"/>
 										
 										<input class="w3-btn w3-black" type="submit" value="Descargar como PDF"><br><br>
 									</form>'
