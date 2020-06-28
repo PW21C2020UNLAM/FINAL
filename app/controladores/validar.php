@@ -177,7 +177,6 @@ function esUsuarioValido($usuarioIngresado,$claveIngresada){
 
 function cambiarClave($claveAnterior,$claveNueva,$usuario){
 	$credenciales=obtenerCredencialesArchivoINI("../database.ini");
-	$email = "administracion@infonete.com";
 
 	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'],'pw2');
 

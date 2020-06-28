@@ -51,7 +51,9 @@
 			<!-- Grid -->
 			<div class="w3-row w3-padding w3-border">
 				<div class="w3-col l8 s12">
-					<?php mostrarNoticiaPendienteDeAprobacion("../noticiasPendientes/imagenes/"); ?>
+					<?php
+						mostrarNoticiaPendienteDeAprobacion();
+					?>
 				</div>
 			</div>
 

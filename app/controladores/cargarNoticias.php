@@ -11,13 +11,10 @@ function mostrarNoticias($directorio,$usuario){
 	}
 }
 
-function imprimirNoticia($archivo,$directorio,$usuario){
+function imprimirNoticia($archivo, $directorio, $usuario){
 	$nombre=str_replace(".jpg",".txt",$archivo);
-	$noticia=obtenerNoticia($nombre,$directorio);
+	$noticia=obtenerNoticia($nombre, $directorio);
 	
-	//'<a href="'.$directorio.$archivo.'" class="w3-input w3-border w3-sand" download="noticia.jpg">Descargar Archivo</a>'
-	//'<a href="output.php?t=pdf" target="_blank">Pdf</a>'
-		
 	$enlace=esSuscripto($usuario)?'<form action="../controladores/mostrarPDF.php" method="post" enctype="application/x-www-form-urlencoded" target="_blank"><br><br>
 										<input type="hidden" name="pdf" value="'.$noticia['titulo']."|".$noticia['tituloDesc']."|".$noticia['tituloDesc2']."|".$directorio.$noticia['imagenEXT']."|".$noticia['articulo'].'"/>
 										
@@ -31,8 +28,6 @@ function imprimirNoticia($archivo,$directorio,$usuario){
 
 function esSuscripto($usuario){
 	$credenciales=obtenerCredencialesArchivoINI("../database.ini");
-	$email = "administracion@infonete.com";
-
 	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'],'pw2');
 
 	if(!$connection){
@@ -77,17 +72,34 @@ function obtenerNoticia($nombreArchivo,$directorio){
 	return $noticia;
 }
 
-function mostrarNoticiaPendienteDeAprobacion($directorio){
-	$arrayDirectorio = scandir($directorio);
-	if(sizeof($arrayDirectorio)==2){
+function mostrarNoticiaPendienteDeAprobacion(){
+	$credenciales=obtenerCredencialesArchivoINI("../database.ini");
+	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'], 'pw2');
+	if($connection){
+		$datab = "pw2";
+		$db = mysqli_select_db($connection, $datab);
+		if (!$db){
+			mysqli_close($connection);
+			echo "No hay noticias pendientes de aprobación...";
+			return;
+		}else{
+			$consulta = "SELECT idNoticia FROM noticias WHERE estado='pendiente' ORDER BY idNoticia ASC";
+			$resultado = mysqli_query($connection, $consulta);
+			if ($resultado) {
+				$columna=mysqli_fetch_array($resultado, MYSQLI_NUM);
+				if(isset($columna[0])){
+					echo imprimirNoticiaPendiente($columna[0].'.jpg', '../noticiasPendientes/imagenes/');
+				}
+			}
+		}
+		mysqli_close($connection);
+	}else{
 		echo "No hay noticias pendientes de aprobación...";
 		return;
 	}
-	imprimirNoticiaPendiente($arrayDirectorio[2],$directorio);
 }
 
-
-function imprimirNoticiaPendiente($archivo,$directorio){
+function imprimirNoticiaPendiente($archivo, $directorio){
 	$nombre=str_replace(".jpg",".txt",$archivo);
 	$noticia=obtenerNoticia($nombre,$directorio);
 	echo '<!-- Blog entry --><div class="w3-container w3-white w3-margin w3-padding-large"><div class="w3-center"><h3>';
@@ -161,6 +173,8 @@ function cargarNoticiaEnBaseDeDatos($nombre, $paqueteForm){
 }
 
 function moverNoticiaAceptada($fileNameTXT){
+	$id=str_replace(".txt","",$fileNameTXT);
+	cambiarEstadoNoticia($id,'aceptada');
 	$fileNameJPG=str_replace(".txt",".jpg",$fileNameTXT);
 	$dirOrigen1="../noticiasPendientes/imagenes/".$fileNameJPG;
 	$dirOrigen2="../noticiasPendientes/texto/".$fileNameTXT;
@@ -171,6 +185,8 @@ function moverNoticiaAceptada($fileNameTXT){
 }
 
 function moverNoticiaRechazada($fileNameTXT){
+	$id=str_replace(".txt","",$fileNameTXT);
+	cambiarEstadoNoticia($id,'rechazada');
 	$fileNameJPG=str_replace(".txt",".jpg",$fileNameTXT);
 	$dirOrigen1="../noticiasPendientes/imagenes/".$fileNameJPG;
 	$dirOrigen2="../noticiasPendientes/texto/".$fileNameTXT;
@@ -178,4 +194,16 @@ function moverNoticiaRechazada($fileNameTXT){
 	$dirDestino2="../noticiasRechazadas/texto/".$fileNameTXT;
 	rename($dirOrigen1,$dirDestino1);
 	rename($dirOrigen2,$dirDestino2);
+}
+
+function cambiarEstadoNoticia($id, $nuevoEstado){
+	$credenciales=obtenerCredencialesArchivoINI("../database.ini");
+	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'], 'pw2');
+	if($connection){
+		$consulta = "UPDATE noticias SET estado='$nuevoEstado' WHERE idNoticia='$id'";
+		$resultado = mysqli_query($connection, $consulta);
+		if( mysqli_query($connection, $consulta) ){
+			mysqli_close($connection);
+		}
+	}
 }
