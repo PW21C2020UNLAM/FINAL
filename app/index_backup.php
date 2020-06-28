@@ -334,10 +334,7 @@ $user="Iniciar Sesión";
 			</div>
 		</div>
 
-		<!-- Footer -->
-		<footer class="w3-container w3-dark-grey" style="padding:32px">
-			<p>Powered by el pipi</a></p>
-		</footer>
+		<?php mostrarFooter();?>
 
 		<script>
 			// Toggle between hiding and showing blog replies/comments

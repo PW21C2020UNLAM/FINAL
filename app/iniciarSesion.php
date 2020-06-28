@@ -2,7 +2,7 @@
 	session_start(); // session_id() DEVUELVE ID DE SESIÓN ACTUAL O CADENA VACÍA "" SI NO HAY SESIÓN ACTUAL
 	include_once("validar.php");
 	include_once("cargarNoticias.php");
-	// insertarAdmin("su","su");
+	
 	if(isset($_SESSION['usuario'])){
 		if(esUsuarioValido($_SESSION['usuario'],$_SESSION['clave'])){
 			$rol=obtenerRolUsuario($_SESSION['usuario']);
@@ -68,7 +68,6 @@
 			<!-- END w3-content -->
 		</div>
 
-		<!-- Footer -->
-		<footer class="w3-container w3-dark-grey" style="padding:32px"><p>Pereyra, Maximiliano Gastón</p><p>DNI: 39.756.173</p><p>Programación Móvil II</p></footer>
+		<?php mostrarFooter();?>
 	</body>
 </html>

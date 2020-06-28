@@ -30,11 +30,10 @@ function imprimirNoticia($archivo,$directorio,$usuario){
 }
 
 function esSuscripto($usuario){
-	$user = "root";
-	$pass = "beatport";
-	$host = "localhost";
+	$credenciales=obtenerCredencialesArchivoINI("database.ini");
+	$email = "administracion@infonete.com";
 
-	$connection = mysqli_connect($host, $user, $pass);
+	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'],'pw2');
 
 	if(!$connection){
 		return false;

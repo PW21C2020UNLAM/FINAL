@@ -1,11 +1,10 @@
 <?php
 	// renombrar archivo como "mostrarSuscripciones()" -> hacer consulta a la base de datos y que muestre, de haber alguna, las suscripciones disponibles
 function consultarSuscripciones($usuario){
-	$user = "root";
-	$pass = "beatport";
-	$host = "localhost";
+	$credenciales=obtenerCredencialesArchivoINI("database.ini");
+	$email = "administracion@infonete.com";
 
-	$connection = mysqli_connect($host, $user, $pass, "pw2");
+	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'],'pw2');
 
 	if(!$connection){
 		echo "Error del servidor, intente nuevamente más tarde...";
@@ -23,11 +22,10 @@ function consultarSuscripciones($usuario){
 }
 
 function eliminarSuscripcion($usuario){
-	$user = "root";
-	$pass = "beatport";
-	$host = "localhost";
+	$credenciales=obtenerCredencialesArchivoINI("database.ini");
+	$email = "administracion@infonete.com";
 
-	$connection = mysqli_connect($host, $user, $pass, "pw2");
+	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'],'pw2');
 
 	if(!$connection){
 		return;

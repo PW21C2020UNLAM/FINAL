@@ -1,12 +1,10 @@
 <?php
 
 function insertarAdmin($usuario, $clave){
-	$user = "root";
-	$pass = "beatport";
-	$host = "localhost";
+	$credenciales=obtenerCredencialesArchivoINI("database.ini");
 	$email = "administracion@infonete.com";
 
-	$connection = mysqli_connect($host, $user, $pass);
+	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'],'pw2');
 
 	if(!$connection){
 		return;
@@ -31,12 +29,11 @@ function insertarAdmin($usuario, $clave){
 	return;
 }
 
-function registrarContenidista($usuario, $clave, $email){
-	$user = "root";
-	$pass = "beatport";
-	$host = "localhost";
+function insertarContenidista($usuario, $clave, $email){
+	$credenciales=obtenerCredencialesArchivoINI("database.ini");
+	$email = "administracion@infonete.com";
 
-	$connection = mysqli_connect($host, $user, $pass);
+	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'],'pw2');
 
 	if(!$connection){
 		echo "No se ha podido conectar con el servidor";
@@ -66,19 +63,41 @@ function registrarContenidista($usuario, $clave, $email){
 	
 function validarMail($email){
 	if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-		return "ok";
+		$credenciales=obtenerCredencialesArchivoINI("database.ini");
+		$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'], 'pw2');
+
+		if(!$connection){
+			echo "No se ha podido conectar con el servidor";
+			return "no_ok";
+		}else{
+			$datab = "pw2";
+			$db = mysqli_select_db($connection,$datab);
+			if (!$db){
+				echo "Error al acceder a la base de datos";
+				mysqli_close($connection);
+				return "no_ok";
+			}else{
+				$sql = "SELECT email FROM usuario WHERE email='$email'";
+				$resultadoQuery = mysqli_query($connection, $sql);
+				if ($resultadoQuery && mysqli_fetch_array($resultadoQuery)) {
+						echo "Esta dirección de correo ($email) YA ESTÁ EN USO.";
+						mysqli_close($connection);
+						return "no_ok";
+				} else {
+					mysqli_close($connection);
+					return "ok";
+				}
+			}
+		}
 	}else{
 		echo "Esta dirección de correo ($email) NO es válida.";
 		return "no_ok";
-	}
+	}	
 }
 
-function validarInsert($usuario, $clave, $email){
-	$user = "root";
-	$pass = "beatport";
-	$host = "localhost";
-
-	$connection = mysqli_connect($host, $user, $pass);
+function insertarUsuario($usuario, $clave, $email){
+	$credenciales=obtenerCredencialesArchivoINI("database.ini");
+	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'], 'pw2');
 
 	if(!$connection){
 		echo "No se ha podido conectar con el servidor";
@@ -92,7 +111,7 @@ function validarInsert($usuario, $clave, $email){
 			return "no_ok";
 		}else{
 			$clave = md5($clave);
-			$sql = "INSERT INTO usuario (usuario, clave, email, rol, suscriptor) VALUES ('$usuario', '$clave', '$email', 'lector', true)";
+			$sql = "INSERT INTO usuario (usuario, clave, email, rol, suscriptor) VALUES ('$usuario', '$clave', '$email', 'lector', false)";
 			if (mysqli_query($connection, $sql)) {
 				echo "¡Usuario creado exitosamente!";
 			} else {
@@ -126,11 +145,10 @@ function mostrarMensajeRegistroContenidista($mensaje){
 }
 
 function esUsuarioValido($usuarioIngresado,$claveIngresada){
-	$user = "root";
-	$pass = "beatport";
-	$host = "localhost";
+	$credenciales=obtenerCredencialesArchivoINI("database.ini");
+	$email = "administracion@infonete.com";
 
-	$connection = mysqli_connect($host, $user, $pass);
+	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'],'pw2');
 
 	if(!$connection){
 		return false;
@@ -158,11 +176,10 @@ function esUsuarioValido($usuarioIngresado,$claveIngresada){
 }
 
 function cambiarClave($claveAnterior,$claveNueva,$usuario){
-	$user = "root";
-	$pass = "beatport";
-	$host = "localhost";
+	$credenciales=obtenerCredencialesArchivoINI("database.ini");
+	$email = "administracion@infonete.com";
 
-	$connection = mysqli_connect($host, $user, $pass, "pw2");
+	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'],'pw2');
 
 	if(!$connection){
 		return false;
@@ -189,11 +206,9 @@ function cambiarClave($claveAnterior,$claveNueva,$usuario){
 }
 
 function eliminarCuenta($usuario, $clave){
-	$user = "root";
-	$pass = "beatport";
-	$host = "localhost";
-
-	$connection = mysqli_connect($host, $user, $pass, "pw2");
+	$credenciales=obtenerCredencialesArchivoINI("database.ini");
+	$email = "administracion@infonete.com";
+	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'],'pw2');
 
 	if(!$connection){
 		return false;
@@ -219,10 +234,9 @@ function eliminarCuenta($usuario, $clave){
 }
 
 function eliminarCuentaAdmin($usuarioDelete,$usr,$clave){
-	$user = "root";
-	$pass = "beatport";
-	$host = "localhost";
-	$connection = mysqli_connect($host, $user, $pass, "pw2");
+	$credenciales=obtenerCredencialesArchivoINI("database.ini");
+	$email = "administracion@infonete.com";
+	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'],'pw2');
 	$resultado=false;
 	if(!esUsuarioValido($usr,$clave)){
 		return false;
@@ -247,11 +261,10 @@ function eliminarCuentaAdmin($usuarioDelete,$usr,$clave){
 
 function validarSuscribirse($usuario, $numero, $codigoSeguridad){
 	if (is_numeric($numero) && is_numeric($codigoSeguridad)) {
-		$user = "root";
-		$pass = "beatport";
-		$host = "localhost";
+		$credenciales=obtenerCredencialesArchivoINI("database.ini");
+		$email = "administracion@infonete.com";
 
-		$connection = mysqli_connect($host, $user, $pass, "pw2");
+		$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'],'pw2');
 
 		if(!$connection){
 			return "Error del servidor, intente nuevamente más tarde...";
@@ -280,11 +293,10 @@ function validarSuscribirse($usuario, $numero, $codigoSeguridad){
 }
 
 function obtenerRolUsuario($userName){
-	$user = "root";
-	$pass = "beatport";
-	$host = "localhost";
+	$credenciales=obtenerCredencialesArchivoINI("database.ini");
+	$email = "administracion@infonete.com";
 
-	$connection = mysqli_connect($host, $user, $pass);
+	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'],'pw2');
 
 	if(!$connection){
 		return null;
@@ -319,11 +331,9 @@ function headerSegunRol($rol){
 }
 
 function cambiarEmail($emailNuevo,$usuario){
-    $user = "root";
-    $pass = "beatport";
-    $host = "localhost";
+	$credenciales=obtenerCredencialesArchivoINI("database.ini");
 
-    $connection = mysqli_connect($host, $user, $pass, "pw2");
+	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'], 'pw2');
 
     if(!$connection){
         return false;
@@ -352,4 +362,33 @@ function cambiarEmail($emailNuevo,$usuario){
         }
     }
 
+}
+
+function obtenerCredencialesArchivoINI($archivo){
+	return parse_ini_file($archivo);
+}
+
+function mostrarFooter(){
+	echo '<!-- Footer -->
+        <footer class="w3-container" style="padding:32px; background-color:black; color:white; display:inline-flex; width:100%">
+            <div style="padding-left:10%;">
+                <b>Infonete S.A.</b><br>
+                <a href="index.php" style="text-decoration:none">Inicio</a><br>
+                <a href="contacto.php" style="text-decoration:none">Contacto</a><br>
+                <a href="mailto:redaccion@infonete.com" style="text-decoration:none">Redacción</a><br>
+                <a href="mailto:comercial@infonete.com" style="text-decoration:none">Comercial</a>
+            </div>
+            <div style="padding-left:26%;">
+                <b>Redes Sociales</b><br>
+                <a href="http://www.instagram.com" style="text-decoration:none">Instagram</a><br>
+                <a href="http://www.facebook.com" style="text-decoration:none">Facebook</a><br>
+                <a href="http://www.twitter.com" style="text-decoration:none">Twitter</a>
+            </div>
+            <div style="padding-left:26%;">
+                <b>Alumnos</b><br>
+                Pereyra, Maximiliano<br>
+                Rodriguez, Sebastian<br>
+                Ovejero, Emiliano
+            </div>
+        </footer>';
 }

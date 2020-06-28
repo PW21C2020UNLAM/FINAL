@@ -1,10 +1,10 @@
 <?php
-session_start(); // session_id() DEVUELVE ID DE SESIÓN ACTUAL O CADENA VACÍA "" SI NO HAY SESIÓN ACTUAL
-include_once("validar.php");
-$user=$_SESSION['usuario'];
-if(!esUsuarioValido($_SESSION['usuario'],$_SESSION['clave'])){
-    header("Location: index.php");
-}
+	session_start(); // session_id() DEVUELVE ID DE SESIÓN ACTUAL O CADENA VACÍA "" SI NO HAY SESIÓN ACTUAL
+	include_once("validar.php");
+	$user=$_SESSION['usuario'];
+	if(!esUsuarioValido($_SESSION['usuario'],$_SESSION['clave'])){
+		header("Location: index.php");
+	}
 ?>
 
 <!DOCTYPE html>
@@ -51,7 +51,6 @@ and is wrapped around the whole page content, except for the footer in this exam
     <!-- END w3-content -->
 </div>
 
-<!-- Footer -->
-<footer class="w3-container w3-dark-grey" style="padding:32px"><p>Pereyra, Maximiliano Gastón</p><p>DNI: 39.756.173</p><p>Programación Móvil II</p></footer>
+<?php mostrarFooter();?>
 </body>
 </html>

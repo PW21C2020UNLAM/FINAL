@@ -1,6 +1,13 @@
 <?php
 	session_start(); // session_id() DEVUELVE ID DE SESIÓN ACTUAL O CADENA VACÍA "" SI NO HAY SESIÓN ACTUAL
 	include_once("validar.php");
+	if(!isset($_SESSION['usuario'])&&!isset($_POST['usuario'])){
+		header(headerSegunRol('lector'));
+	}
+	if(isset($_SESSION['usuario'])){
+		$rol=obtenerRolUsuario($_SESSION['usuario']);
+		header(headerSegunRol($rol));
+	}
 	if(esUsuarioValido($_POST['usuario'],$_POST['clave'])){
 		$_SESSION['usuario']=$_POST['usuario'];
 		$_SESSION['clave']=$_POST['clave'];

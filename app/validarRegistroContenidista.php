@@ -52,7 +52,7 @@
 										$email = $_POST['mail'];
 										$mensaje=validarMail($email);
 										if($mensaje=="ok"){
-											$mensaje=registrarContenidista($user,$pass,$email);
+											$mensaje=insertarContenidista($user,$pass,$email);
 										}
 									?>
 									</h2>
@@ -65,7 +65,6 @@
 			<!-- END w3-content -->
 		</div>
 
-		<!-- Footer -->
-		<footer class="w3-container w3-dark-grey" style="padding:32px"><p>Pereyra, Maximiliano Gastón</p><p>DNI: 39.756.173</p><p>Programación Móvil II</p></footer>
+		<?php mostrarFooter();?>
 	</body>
 </html>

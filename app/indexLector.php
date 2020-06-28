@@ -2,7 +2,8 @@
 	session_start(); // session_id() DEVUELVE ID DE SESIÓN ACTUAL O CADENA VACÍA "" SI NO HAY SESIÓN ACTUAL
 	include_once("validar.php");
 	include_once("cargarNoticias.php");
-	insertarAdmin("su","su");
+	// insertarAdmin("su","su");
+	
 	$user=$_SESSION['usuario'];
 	if(!esUsuarioValido($_SESSION['usuario'],$_SESSION['clave'])){
 		header("Location: index.php");
@@ -186,27 +187,6 @@
 			</div>
 		</div>
 
-        <!-- Footer -->
-        <footer class="w3-container" style="padding:32px; background-color:black; color:white; display:inline-flex; width:100%">
-            <div style="padding-left:10%;">
-                <b>Infonete S.A.</b><br>
-                <a href="index.php" style="text-decoration:none">Inicio</a><br>
-                <a href="contacto.php" style="text-decoration:none">Contacto</a><br>
-                <a href="mailto:redaccion@infonete.com" style="text-decoration:none">Redacción</a><br>
-                <a href="mailto:comercial@infonete.com" style="text-decoration:none">Comercial</a>
-            </div>
-            <div style="padding-left:26%;">
-                <b>Redes Sociales</b><br>
-                <a href="http://www.instagram.com" style="text-decoration:none">Instagram</a><br>
-                <a href="http://www.facebook.com" style="text-decoration:none">Facebook</a><br>
-                <a href="http://www.twitter.com" style="text-decoration:none">Twitter</a>
-            </div>
-            <div style="padding-left:26%;">
-                <b>Alumnos</b><br>
-                Pereyra, Maximiliano<br>
-                Rodriguez, Sebastian<br>
-                Ovejero, Emiliano
-            </div>
-        </footer>
+		<?php mostrarFooter();?>
 	</body>
 </html>

@@ -2,7 +2,7 @@
 	session_start(); // session_id() DEVUELVE ID DE SESIÓN ACTUAL O CADENA VACÍA "" SI NO HAY SESIÓN ACTUAL
 	include_once("validar.php");
 	$user=$_SESSION['usuario'];
-	if(!esUsuarioValido($_SESSION['usuario'],$_SESSION['clave'])){
+	if(!esUsuarioValido($_SESSION['usuario'],$_SESSION['clave']) || (!isset($_POST['clave']))){
 		header("Location: index.php");
 	}
 	$resultadoBorrarUsuario=false;
