@@ -83,7 +83,13 @@
 					
 					<label for="subject">Cuerpo de la noticia (usar formato HTML):</label>
 					<textarea id="subject" name="cuerpoForm" placeholder="Escribe algo..." style="height:200px" required></textarea>
-
+					
+					<label for="fname">Seleccionar paquete:</label>
+					<p>
+						<input type="radio" name="paqueteForm" value="diario" required> Diario<br>
+						<input type="radio" name="paqueteForm" value="revista"> Revista<br>
+						<input type="radio" name="paqueteForm" value="ninguno"> Ninguno<br><br>
+					</p>
 					<input type="submit" value="Enviar">
 				</form>
 		

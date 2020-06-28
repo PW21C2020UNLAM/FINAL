@@ -119,17 +119,45 @@ function obtenerFechaYHoraActual(){ // Sólo para nombrar los archivos
 	return $fecha->format('YmdHis');
 }
 
-function subirNoticia($tituloForm,$subtituloForm,$fechaForm,$imagenForm_tmp,$cuerpoForm){
+function subirNoticia($tituloForm,$subtituloForm,$fechaForm,$imagenForm_tmp,$cuerpoForm,$paqueteForm){
 	$nombre=obtenerFechaYHoraActual();
-	if(!move_uploaded_file($imagenForm_tmp, "../noticiasPendientes/imagenes/" . $nombre . ".jpg")){
-		return "ERROR";
-	}
 	$file = fopen("../noticiasPendientes/texto/" . $nombre. ".txt", "w");
 	if(!$file){
 		return "ERROR";
 	}
+	if(!move_uploaded_file($imagenForm_tmp, "../noticiasPendientes/imagenes/" . $nombre . ".jpg")){
+		fclose($file);
+		return "ERROR";
+	}
 	fwrite($file, "$tituloForm|$subtituloForm|$fechaForm|$nombre".".jpg"."|$cuerpoForm");
-	return "¡Noticia enviada exitosamente!";
+	fclose($file);
+	return cargarNoticiaEnBaseDeDatos($nombre, $paqueteForm);
+}
+
+function cargarNoticiaEnBaseDeDatos($nombre, $paqueteForm){
+	$credenciales=obtenerCredencialesArchivoINI("../database.ini");
+	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'], 'pw2');
+
+	if(!$connection){
+		return "No se ha podido conectar con el servidor";
+	}else{
+		$datab = "pw2";
+		$db = mysqli_select_db($connection, $datab);
+		if (!$db){
+			mysqli_close($connection);
+			return "Error al acceder a la base de datos";
+		}else{
+			$esPremium = ( $paqueteForm=="ninguno"? false : true ); // los paquetes son 'ninguno', 'diario' y 'revista'
+			$sql = "INSERT INTO noticias (idNoticia, esPremium, paquete, cantidadDescargas, estado) VALUES ('$nombre', '$esPremium', '$paqueteForm', 0, 'pendiente')"; // los estados son 'pendiente', 'aprobada' y 'rechazada'
+			if (!mysqli_query($connection, $sql)) {
+				mysqli_close($connection);
+				return "No se pudo insertar en la base de datos";
+			}
+		}
+	}
+	mysqli_close($connection);
+	return "¡Se subió exitosamente la noticia!";
+	
 }
 
 function moverNoticiaAceptada($fileNameTXT){

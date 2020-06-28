@@ -44,8 +44,8 @@
 								<div class="w3-container w3-black">
 									<h2 class="w3-lobster">
 									<?php
-										if(isset($_POST['tituloForm'])&&isset($_POST['subtituloForm'])&&isset($_POST['fechaForm'])&&(isset($_FILES['imagenForm'])&&$_FILES['imagenForm']['error']==0)&&isset($_POST['cuerpoForm'])){
-											echo subirNoticia($_POST['tituloForm'],$_POST['subtituloForm'],$_POST['fechaForm'],$_FILES['imagenForm']['tmp_name'],$_POST['cuerpoForm']);
+										if(isset($_POST['tituloForm'])&&isset($_POST['subtituloForm'])&&isset($_POST['fechaForm'])&&(isset($_FILES['imagenForm'])&&$_FILES['imagenForm']['error']==0)&&isset($_POST['cuerpoForm'])&&isset($_POST['paqueteForm'])){
+											echo subirNoticia($_POST['tituloForm'],$_POST['subtituloForm'],$_POST['fechaForm'],$_FILES['imagenForm']['tmp_name'],$_POST['cuerpoForm'],$_POST['paqueteForm']);
 											$subidaExitosa=true;
 										}else{
 											echo "ERROR";
