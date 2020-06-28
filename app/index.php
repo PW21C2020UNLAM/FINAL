@@ -1,10 +1,10 @@
 <?php
 	session_start();
-	include_once("validar.php");
-	include_once("cargarNoticias.php");
+	// include_once("controladores/validar.php");
 	if (isset($_SESSION['usuario'])) {
-		$rol=obtenerRolUsuario($_SESSION['usuario']);
-		header(headerSegunRol($rol));
+		// $rol=obtenerRolUsuario($_SESSION['usuario']);
+		// header(headerSegunRol($rol));
+	header("Location: vistas/indexLector.php");
 	}
 ?>
 
@@ -27,8 +27,8 @@
 
 		<!-- Navigation bar with social media icons -->
 		<div class="w3-bar w3-black w3-hide-small">
-			<a href="iniciarSesion.php" class="w3-bar-item w3-button">Iniciar Sesión</a>
-			<a href="registro.php" class="w3-bar-item w3-button">Registrarse</a>
+			<a href="vistas/iniciarSesion.php" class="w3-bar-item w3-button">Iniciar Sesión</a>
+			<a href="vistas/registro.php" class="w3-bar-item w3-button">Registrarse</a>
 			
 		</div>
 
@@ -49,7 +49,7 @@
 					<h1 class="w3-text-white">Infonete S.A</h1>
 					<h1 class="w3-jumbo w3-text-white w3-hide-small"><b>NOTICIAS DIGITALES</b></h1>
 					<h6><button class="w3-button w3-white w3-padding-large w3-large w3-opacity w3-hover-opacity-off" onclick="document.getElementById('subscribe').style.display='block'">
-					<a href="iniciarSesion.php" class="w3-bar-item">Iniciar Sesión</a>
+					<a href="vistas/iniciarSesion.php" class="w3-bar-item">Iniciar Sesión</a>
 					</button></h6>
 				</div>
 			</header>
