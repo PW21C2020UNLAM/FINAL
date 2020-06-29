@@ -35,7 +35,7 @@ function obtenerNoticiasSegunUsuario($usuario, $condicion){
 				if($suscripto){
 					$consulta = "SELECT idNoticia FROM noticias WHERE estado='aceptada' ORDER BY idNoticia DESC";
 				}else{
-					$consulta = "SELECT idNoticia FROM noticias WHERE estado='aceptada' AND esPremium=false ORDER BY idNoticia ASC";
+					$consulta = "SELECT idNoticia FROM noticias WHERE estado='aceptada' AND esPremium=false ORDER BY idNoticia DESC";
 				}
 			}else{
 				if($condicion=='rechazadas'){
