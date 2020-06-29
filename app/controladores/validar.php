@@ -331,9 +331,7 @@ function headerSegunRol($rol){
 
 function cambiarEmail($emailNuevo,$usuario){
 	$credenciales=obtenerCredencialesArchivoINI("../database.ini");
-
 	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'], 'pw2');
-
     if(!$connection){
         return false;
     }
@@ -389,4 +387,64 @@ function mostrarFooter(){
                 Rodriguez, Sebastian<br>
             </div>
         </footer>';
+}
+
+function mostrarLoMasDescargado(){
+	$arrayDeIDs=obtenerIDsDeLasXNoticiasMasDescargadas(4);
+	echo '<div class="w3-white w3-margin">
+			<div class="w3-container w3-padding w3-black">
+				<h4>Lo más descargado</h4>
+			</div>
+			
+			<ul class="w3-ul w3-hoverable w3-white">';
+	foreach($arrayDeIDs as &$id){
+		mostrarPopular($id);
+	}
+	echo	'</ul>
+		</div>
+		<hr>';
+}
+
+function mostrarPopular($id){
+	$noticia = obtenerNoticia($id.'.txt','../noticias/imagenes/');
+	echo	'<li class="w3-padding-16">
+				<img src="'.'../noticias/imagenes/'.$noticia['imagenEXT'].'" alt="Image" class="w3-left w3-margin-right" style="width:90px">
+				<span class="w3-large">'.$noticia['titulo'].'</span>
+				<br>
+				<span>'.$noticia['tituloDesc'].'</span>
+			</li>';
+}
+
+function obtenerIDsDeLasXNoticiasMasDescargadas($numeroX){
+	$credenciales=obtenerCredencialesArchivoINI("../database.ini");
+	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'], 'pw2');
+	if($connection){
+		$datab = "pw2";
+		$db = mysqli_select_db($connection, $datab);
+		if (!$db){
+			mysqli_close($connection);
+			return null;
+		}else{
+			$consulta = "SELECT idNoticia FROM noticias ORDER BY cantidadDescargas DESC LIMIT $numeroX";
+			
+			$resultado = mysqli_query($connection, $consulta);
+			$retorno;
+			if ($resultado) {
+				while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC)){
+					$nuevo_array[]=$fila;
+				}
+				foreach($nuevo_array as $fila){
+					foreach($fila as $columna ){
+						$retorno[]=$columna;
+					}
+				}
+				mysqli_close($connection);
+				return $retorno;
+			}
+		}
+		mysqli_close($connection);
+	}else{
+		echo "No se encontraron noticias para el usuario actual...";
+		return null;
+	}
 }
