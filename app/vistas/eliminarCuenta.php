@@ -26,7 +26,6 @@
 
 		<!-- Navigation bar with social media icons -->
 		<div class="w3-bar w3-black w3-hide-small">
-			<a href="contacto.php" class="w3-bar-item w3-button">Contacto</a>
 			<a href="index.php" class="w3-bar-item w3-button">Volver</a>
 			
 		</div>

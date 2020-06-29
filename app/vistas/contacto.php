@@ -44,7 +44,7 @@
 	</head>
 	<body>
 		<div class="w3-bar w3-black w3-hide-small">
-			<a href="vistas/indexLector.php" class="w3-bar-item w3-button">Volver</a>
+			<a href="index.php" class="w3-bar-item w3-button">Volver</a>
 			
 			</div>
 			

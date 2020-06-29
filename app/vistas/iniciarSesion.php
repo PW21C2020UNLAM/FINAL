@@ -9,6 +9,8 @@
 			header(headerSegunRol($rol));
 		}
 	}
+
+    
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +22,16 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	
+    <script src="https://apis.google.com/js/platform.js" async defer>
+        function onSignIn(googleUser) {
+            profile = $googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+        }
+    </script>
+    <meta name="google-signin-client_id" content="415665678281-de2napkbfkl6ea2pl7jrg1gl1mlqh49s.apps.googleusercontent.com">
 	<style>
 		h1,h2,h3,h4,h5,h6 {font-family: "Oswald"}
 		body {font-family: "Open Sans"}
@@ -30,7 +41,6 @@
 
 		<!-- Navigation bar with social media icons -->
 		<div class="w3-bar w3-black w3-hide-small">
-			<a href="contacto.php" class="w3-bar-item w3-button">Contacto</a>
 			<a href="index.php" class="w3-bar-item w3-button">Volver</a>
 			
 		</div>
@@ -49,6 +59,7 @@
 									<label class="w3-text-brown">Usuario:</label> <input class="w3-input w3-border w3-sand " type="text" name="usuario" required><br><br>
 									<label class="w3-text-brown">Clave:</label> <input class="w3-input w3-border w3-sand" type="password" name="clave" required><br><br>
 									<input class="w3-btn w3-black" type="submit" value="Ingresar"><br><br>
+                                    <div class="g-signin2" style="display:inline-block; text-align:center" data-onsuccess="onSignIn"></div><br><br>
 									<a href="registro.php">¿No estás registrado?</a>
 								</form>
 							</div>
