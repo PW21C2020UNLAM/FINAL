@@ -112,7 +112,7 @@ function esSuscripto($usuario){
 			$resultado = mysqli_query($connection, $consulta);
 			if ($resultado) {
 				$columna=mysqli_fetch_array($resultado);
-				if($columna['suscriptor']==true){
+				if(isset($columna['suscriptor'])&&$columna['suscriptor']==true){
 					mysqli_close($connection);
 					return true;
 				}
