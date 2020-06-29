@@ -4,13 +4,21 @@ include_once('../fpdf/fpdf.php');
 
 function mostrarNoticias($usuario){
 	// $arrayDirectorio = scandir("../noticias/imagenes", 1); -> Todos los ID's de noticias + ".jpg"
-	$arrayDirectorio = obtenerNoticiasSegunUsuario($usuario); // Debe contener todas las rutas de las imagenes de noticias
+	$arrayDirectorio = obtenerNoticiasSegunUsuario($usuario,'aceptadas'); // Debe contener todas las rutas de las imagenes de noticias
 	foreach ($arrayDirectorio as &$archivo ){
 		echo imprimirNoticia($archivo,"../noticias/imagenes/",$usuario);
 	}
 }
 
-function obtenerNoticiasSegunUsuario($usuario){
+function mostrarNoticiasRechazadas($usuario){
+	// $arrayDirectorio = scandir("../noticias/imagenes", 1); -> Todos los ID's de noticias + ".jpg"
+	$arrayDirectorio = obtenerNoticiasSegunUsuario($usuario,'rechazadas'); // Debe contener todas las rutas de las imagenes de noticias
+	foreach ($arrayDirectorio as &$archivo ){
+		echo imprimirNoticia($archivo,"../noticiasRechazadas/imagenes/",$usuario);
+	}
+}
+
+function obtenerNoticiasSegunUsuario($usuario, $condicion){
 	$credenciales=obtenerCredencialesArchivoINI("../database.ini");
 	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'], 'pw2');
 	if($connection){
@@ -23,10 +31,18 @@ function obtenerNoticiasSegunUsuario($usuario){
 		}else{
 			$suscripto = obtenerSuscripcion($usuario);
 			$consulta="";
-			if($suscripto){
-				$consulta = "SELECT idNoticia FROM noticias WHERE estado='aceptada' ORDER BY idNoticia DESC";
+			if($condicion=='aceptadas'){
+				if($suscripto){
+					$consulta = "SELECT idNoticia FROM noticias WHERE estado='aceptada' ORDER BY idNoticia DESC";
+				}else{
+					$consulta = "SELECT idNoticia FROM noticias WHERE estado='aceptada' AND esPremium=false ORDER BY idNoticia ASC";
+				}
 			}else{
-				$consulta = "SELECT idNoticia FROM noticias WHERE estado='aceptada' AND esPremium=false ORDER BY idNoticia ASC";
+				if($condicion=='rechazadas'){
+					$consulta = "SELECT idNoticia FROM noticias WHERE estado='rechazada' ORDER BY idNoticia DESC";
+				}else{
+					$consulta = "SELECT idNoticia FROM noticias WHERE estado='pendiente' ORDER BY idNoticia ASC";
+				}
 			}
 			$resultado = mysqli_query($connection, $consulta);
 			$retorno;

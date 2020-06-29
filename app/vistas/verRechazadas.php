@@ -32,7 +32,7 @@
 	<body class="w3-light-grey">
 		<!-- Navigation bar with social media icons -->
 		<div class="w3-bar w3-black w3-hide-small">
-			<div class="w3-bar-item">Admin: <?php echo $user?></div>
+			<div class="w3-bar-item">Usuario: <?php echo $user?></div>
 			<a href="noticiasPendientes.php" class="w3-bar-item w3-button">Volver</a>
 			<a href="logout.php" class="w3-bar-item w3-button">Salir</a>
 		</div>
@@ -50,7 +50,7 @@
 			<!-- Grid -->
 			<div class="w3-row w3-padding w3-border">
 				<div class="w3-col l8 s12">
-					<?php mostrarNoticias("../noticiasRechazadas/imagenes/",$_SESSION['usuario']); ?>
+					<?php mostrarNoticiasRechazadas($_SESSION['usuario']); ?>
 				</div>
 			</div>
 
