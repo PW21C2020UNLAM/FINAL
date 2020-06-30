@@ -40,7 +40,7 @@
 				<div class="w3-padding-32 w3-center w3-row">			
 					<div class="w3-container  w3-padding w3-light-grey w3-margin-top ">
 						<div class="w3-container w3-black">
-							<?php moverNoticiaAceptada($_POST['directorio']);?>
+							<?php moverNoticiaAceptada($_POST['idNoticia']);?>
 							<h2 class="w3-lobster">¡Noticia ACEPTADA!</h2>
 						</div>
 						<br><label class="w3-text-brown">Para seguir gestionando noticias, click en el botón de abajo</label><br><br>

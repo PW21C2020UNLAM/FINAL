@@ -3,18 +3,16 @@
 include_once('../fpdf/fpdf.php');
 
 function mostrarNoticias($usuario){
-	// $arrayDirectorio = scandir("../noticias/imagenes", 1); -> Todos los ID's de noticias + ".jpg"
-	$arrayDirectorio = obtenerNoticiasSegunUsuario($usuario,'aceptadas'); // Debe contener todas las rutas de las imagenes de noticias
-	foreach ($arrayDirectorio as &$archivo ){
-		echo imprimirNoticia($archivo,"../noticias/imagenes/",$usuario);
+	$arrayIDNoticias = obtenerNoticiasSegunUsuario($usuario,'aceptadas'); // Debe contener los ID's de las noticias
+	foreach ($arrayIDNoticias as &$noticiaID ){
+		echo imprimirNoticia($noticiaID,"../noticias/imagenes/",$usuario);
 	}
 }
 
 function mostrarNoticiasRechazadas($usuario){
-	// $arrayDirectorio = scandir("../noticias/imagenes", 1); -> Todos los ID's de noticias + ".jpg"
-	$arrayDirectorio = obtenerNoticiasSegunUsuario($usuario,'rechazadas'); // Debe contener todas las rutas de las imagenes de noticias
-	foreach ($arrayDirectorio as &$archivo ){
-		echo imprimirNoticia($archivo,"../noticiasRechazadas/imagenes/",$usuario);
+	$arrayIDNoticias = obtenerNoticiasSegunUsuario($usuario,'rechazadas'); // Debe contener los ID's de las noticias
+	foreach ($arrayIDNoticias as &$noticiaID ){
+		echo imprimirNoticia($noticiaID,"../noticiasRechazadas/imagenes/",$usuario);
 	}
 }
 
@@ -92,28 +90,47 @@ function obtenerSuscripcion($usuario){ // retorna true o false indicando si est�
 	return false;
 }
 
-function imprimirNoticia($archivo, $directorio, $usuario){
-	$nombre=str_replace(".jpg",".txt",$archivo);
-	$noticia=obtenerNoticia($nombre, $directorio);
-	$idNoticia=str_replace(".jpg","",$archivo);
-	
-	$enlace=esSuscripto($usuario)?'<form action="../controladores/mostrarPDF.php" method="post" enctype="application/x-www-form-urlencoded" target="_blank"><br><br>
-										<input type="hidden" name="pdf" value="'.$noticia['titulo']."|".$noticia['tituloDesc']."|".$noticia['tituloDesc2']."|".$directorio.$noticia['imagenEXT']."|".$noticia['articulo'].'"/>
+function imprimirNoticia($idNoticia, $directorioDeImagenes, $usuario){
+	$credenciales=obtenerCredencialesArchivoINI("../database.ini");
+	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'], 'pw2');
+	if($connection){
+		$datab = "pw2";
+		$db = mysqli_select_db($connection, $datab);
+		if (!$db){
+			mysqli_close($connection);
+			echo "No hay noticias disponibles en este momento...";
+			return;
+		}else{
+			$consulta = "SELECT * FROM noticias WHERE idNoticia='$idNoticia'";
+			$resultado = mysqli_query($connection, $consulta);
+			if ($resultado) {
+				$fila=mysqli_fetch_array($resultado, MYSQLI_ASSOC);
+				if(isset($fila['idNoticia'])){
+					$enlace=esSuscripto($usuario)?'<form action="../controladores/mostrarPDF.php" method="post" enctype="application/x-www-form-urlencoded" target="_blank"><br><br>
+										<input type="hidden" name="pdf" value="'.$fila['tituloForm']."|".$fila['subtituloForm']."|".$fila['fechaForm']."|".$directorioDeImagenes.$fila['imagenJPG']."|".$fila['cuerpoForm'].'"/>
 										<input type="hidden" name="usuario" value="'.$usuario.'"/>
 										<input type="hidden" name="idNoticia" value="'.$idNoticia.'"/>
-										
 										<input class="w3-btn w3-black" type="submit" value="Descargar como PDF"><br><br>
 									</form>'
 								
 								:'<a href="../vistas/suscribirse.php" class="w3-btn w3-black">Descargar como PDF</a>';
+					
+					return '<!-- Blog entry --><div class="w3-container w3-white w3-margin w3-padding-large"><div class="w3-center"><h3>'.$fila['tituloForm'].'</h3><h5>'.$fila['subtituloForm'].', <span class="w3-opacity">'.$fila['fechaForm'].'</span></h5></div><div class="w3-justify"><img src="'.$directorioDeImagenes.$fila['imagenJPG'].'" style="width:100%" class="w3-padding-16"><p>'.$fila['cuerpoForm'].'</p></div>'.$enlace.'</div><hr>';
 
-	return '<!-- Blog entry --><div class="w3-container w3-white w3-margin w3-padding-large"><div class="w3-center"><h3>'.$noticia['titulo'].'</h3><h5>'.$noticia['tituloDesc'].', <span class="w3-opacity">'.$noticia['tituloDesc2'].'</span></h5></div><div class="w3-justify"><img src="'.$directorio.$noticia['imagenEXT'].'" style="width:100%" class="w3-padding-16"><p>'.$noticia['articulo'].'</p></div>'.$enlace.'</div><hr>';
+				}else{
+					echo "No hay noticias disponibles en este momento...";
+				}
+			}
+		}
+		mysqli_close($connection);
+	}
+	echo "No hay noticias disponibles en este momento...";
+	return;
 }
 
 function esSuscripto($usuario){
 	$credenciales=obtenerCredencialesArchivoINI("../database.ini");
 	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'],'pw2');
-
 	if(!$connection){
 		return false;
 	}else{
@@ -167,12 +184,12 @@ function mostrarNoticiaPendienteDeAprobacion(){
 			echo "No hay noticias pendientes de aprobación...";
 			return;
 		}else{
-			$consulta = "SELECT idNoticia FROM noticias WHERE estado='pendiente' ORDER BY idNoticia ASC";
+			$consulta = "SELECT * FROM noticias WHERE estado='pendiente' ORDER BY idNoticia ASC";
 			$resultado = mysqli_query($connection, $consulta);
 			if ($resultado) {
-				$columna=mysqli_fetch_array($resultado, MYSQLI_NUM);
-				if(isset($columna[0])){
-					echo imprimirNoticiaPendiente($columna[0].'.jpg', '../noticiasPendientes/imagenes/');
+				$fila=mysqli_fetch_array($resultado, MYSQLI_ASSOC);
+				if(isset($fila['idNoticia'])){
+					echo imprimirNoticiaPendiente($fila['idNoticia'], $fila['tituloForm'], $fila['subtituloForm'], $fila['fechaForm'], $fila['imagenJPG'], $fila['cuerpoForm'], '../noticiasPendientes/imagenes/');
 				}else{
 					echo "No hay noticias pendientes de aprobación...";
 				}
@@ -185,26 +202,23 @@ function mostrarNoticiaPendienteDeAprobacion(){
 	}
 }
 
-function imprimirNoticiaPendiente($archivo, $directorio){
-	$nombre=str_replace(".jpg",".txt",$archivo);
-	$noticia=obtenerNoticia($nombre,$directorio);
+function imprimirNoticiaPendiente($idNoticia, $tituloForm, $subtituloForm, $fechaForm, $imagenJPG, $cuerpoForm, $directorio){
 	echo '<!-- Blog entry --><div class="w3-container w3-white w3-margin w3-padding-large"><div class="w3-center"><h3>';
-	echo $noticia['titulo'];
+	echo $tituloForm;
 	echo '</h3><h5>';
-	echo $noticia['tituloDesc'];
+	echo $subtituloForm;
 	echo ', <span class="w3-opacity">';
-	echo $noticia['tituloDesc2'];
-	echo '</span></h5></div><div class="w3-justify"><img src="'.$directorio;
-	echo $noticia['imagenEXT'];
+	echo $fechaForm;
+	echo '</span></h5></div><div class="w3-justify"><img src="'.$directorio.$imagenJPG;
 	echo '" style="width:100%" class="w3-padding-16"><p>';
-	echo $noticia['articulo'];
+	echo $cuerpoForm;
 	echo '</div>  
 								<form action="aceptarNoticia.php" method="post" enctype="application/x-www-form-urlencoded">
-									<input type="hidden" name="directorio" value="'.$nombre.'"/>
+									<input type="hidden" name="idNoticia" value="'.$idNoticia.'"/>
 									<input class="w3-btn w3-black" type="submit" value="Validar noticia">
 								</form><br>
 								<form action="rechazarNoticia.php" method="post" enctype="application/x-www-form-urlencoded">
-									<input type="hidden" name="directorio" value="'.$nombre.'"/>
+									<input type="hidden" name="idNoticia" value="'.$idNoticia.'"/>
 									<input class="w3-btn w3-black" type="submit" value="Rechazar noticia">
 								</form>
 							</div>
@@ -219,20 +233,13 @@ function obtenerFechaYHoraActual(){ // Sólo para nombrar los archivos
 
 function subirNoticia($tituloForm,$subtituloForm,$fechaForm,$imagenForm_tmp,$cuerpoForm,$paqueteForm){
 	$nombre=obtenerFechaYHoraActual();
-	$file = fopen("../noticiasPendientes/texto/" . $nombre. ".txt", "w");
-	if(!$file){
-		return "ERROR";
-	}
 	if(!move_uploaded_file($imagenForm_tmp, "../noticiasPendientes/imagenes/" . $nombre . ".jpg")){
-		fclose($file);
 		return "ERROR";
 	}
-	fwrite($file, "$tituloForm|$subtituloForm|$fechaForm|$nombre".".jpg"."|$cuerpoForm");
-	fclose($file);
-	return cargarNoticiaEnBaseDeDatos($nombre, $paqueteForm);
+	return cargarNoticiaEnBaseDeDatos($nombre, $tituloForm, $subtituloForm, $fechaForm, $nombre.".jpg", $cuerpoForm, $paqueteForm);
 }
 
-function cargarNoticiaEnBaseDeDatos($nombre, $paqueteForm){
+function cargarNoticiaEnBaseDeDatos($nombre, $tituloForm, $subtituloForm, $fechaForm, $imagenJPG, $cuerpoForm, 									$paqueteForm){
 	$credenciales=obtenerCredencialesArchivoINI("../database.ini");
 	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'], 'pw2');
 
@@ -246,7 +253,7 @@ function cargarNoticiaEnBaseDeDatos($nombre, $paqueteForm){
 			return "Error al acceder a la base de datos";
 		}else{
 			$esPremium = ( $paqueteForm=="ninguno"? false : true ); // los paquetes son 'ninguno', 'diario' y 'revista'
-			$sql = "INSERT INTO noticias (idNoticia, esPremium, paquete, cantidadDescargas, estado) VALUES ('$nombre', '$esPremium', '$paqueteForm', 0, 'pendiente')"; // los estados son 'pendiente', 'aprobada' y 'rechazada'
+			$sql = "INSERT INTO noticias (idNoticia, esPremium, paquete, cantidadDescargas, estado, tituloForm, subtituloForm, fechaForm, imagenJPG, cuerpoForm) VALUES ('$nombre', '$esPremium', '$paqueteForm', 0, 'pendiente', '$tituloForm', '$subtituloForm', '$fechaForm', '$imagenJPG', '$cuerpoForm')"; // los estados son 'pendiente', 'aprobada' y 'rechazada'
 			if (!mysqli_query($connection, $sql)) {
 				mysqli_close($connection);
 				return "No se pudo insertar en la base de datos";
@@ -258,28 +265,20 @@ function cargarNoticiaEnBaseDeDatos($nombre, $paqueteForm){
 	
 }
 
-function moverNoticiaAceptada($fileNameTXT){
-	$id=str_replace(".txt","",$fileNameTXT);
-	cambiarEstadoNoticia($id,'aceptada');
-	$fileNameJPG=str_replace(".txt",".jpg",$fileNameTXT);
-	$dirOrigen1="../noticiasPendientes/imagenes/".$fileNameJPG;
-	$dirOrigen2="../noticiasPendientes/texto/".$fileNameTXT;
-	$dirDestino1="../noticias/imagenes/".$fileNameJPG;
-	$dirDestino2="../noticias/texto/".$fileNameTXT;
-	rename($dirOrigen1,$dirDestino1);
-	rename($dirOrigen2,$dirDestino2);
+function moverNoticiaAceptada($idNoticia){
+	cambiarEstadoNoticia($idNoticia,'aceptada');
+	$fileNameJPG=$idNoticia.".jpg";
+	$dirOrigen="../noticiasPendientes/imagenes/".$fileNameJPG;
+	$dirDestino="../noticias/imagenes/".$fileNameJPG;
+	rename($dirOrigen, $dirDestino);
 }
 
-function moverNoticiaRechazada($fileNameTXT){
-	$id=str_replace(".txt","",$fileNameTXT);
-	cambiarEstadoNoticia($id,'rechazada');
-	$fileNameJPG=str_replace(".txt",".jpg",$fileNameTXT);
-	$dirOrigen1="../noticiasPendientes/imagenes/".$fileNameJPG;
-	$dirOrigen2="../noticiasPendientes/texto/".$fileNameTXT;
-	$dirDestino1="../noticiasRechazadas/imagenes/".$fileNameJPG;
-	$dirDestino2="../noticiasRechazadas/texto/".$fileNameTXT;
-	rename($dirOrigen1,$dirDestino1);
-	rename($dirOrigen2,$dirDestino2);
+function moverNoticiaRechazada($idNoticia){
+	cambiarEstadoNoticia($idNoticia,'rechazada');
+	$fileNameJPG=$idNoticia.".jpg";
+	$dirOrigen="../noticiasPendientes/imagenes/".$fileNameJPG;
+	$dirDestino="../noticiasRechazadas/imagenes/".$fileNameJPG;
+	rename($dirOrigen, $dirDestino);
 }
 
 function cambiarEstadoNoticia($id, $nuevoEstado){
