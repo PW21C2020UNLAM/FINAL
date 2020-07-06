@@ -31,7 +31,6 @@ function insertarAdmin($usuario, $clave){
 
 function insertarContenidista($usuario, $clave, $email){
 	$credenciales=obtenerCredencialesArchivoINI("../database.ini");
-	$email = "administracion@infonete.com";
 
 	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'],'pw2');
 
@@ -146,7 +145,7 @@ function mostrarMensajeRegistroContenidista($mensaje){
 
 function esUsuarioValido($usuarioIngresado,$claveIngresada){
 	$credenciales=obtenerCredencialesArchivoINI("../database.ini");
-	$email = "administracion@infonete.com";
+	// $email = "administracion@infonete.com";
 
 	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'],'pw2');
 

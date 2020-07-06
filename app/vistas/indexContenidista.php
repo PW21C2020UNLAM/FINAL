@@ -1,7 +1,8 @@
 <?php
 	session_start();
-	include_once("../controladores/validar.php");
-	include_once("../controladores/cargarNoticias.php");
+    include_once("../controladores/validar.php");
+    include_once("../controladores/cargarPublicaciones.php");
+    include_once("../controladores/cargarNoticias.php");
 	
 	$user=$_SESSION['usuario'];
 	if(!esUsuarioValido($_SESSION['usuario'],$_SESSION['clave'])){
@@ -34,8 +35,10 @@
 		<!-- Navigation bar with social media icons -->
 		<div class="w3-bar w3-black w3-hide-small">
 			<div class="w3-bar-item">Contenidista: <?php echo $user?></div>
+            <a href="cargarNuevaPublicacion.php" class="w3-bar-item w3-button">Nueva publicación</a>
 			<a href="cargarNuevaNoticia.php" class="w3-bar-item w3-button">Nueva noticia</a>
-			<a href="verRechazadas.php" class="w3-bar-item w3-button">Ver rechazadas</a>
+            <a href="publicacionesRechazadas.php" class="w3-bar-item w3-button">Publicaciones rechazadas</a>
+			<a href="noticiasRechazadas.php" class="w3-bar-item w3-button">Noticias rechazadas</a>
 			<a href="cambiarClave.php" class="w3-bar-item w3-button">Cambiar clave</a>
 			<a href="eliminarCuenta.php" class="w3-bar-item w3-button">Eliminar cuenta</a>
 			<a href="logout.php" class="w3-bar-item w3-button">Salir</a>
@@ -47,15 +50,34 @@
 
 			<!-- Header -->
 			<header class="w3-container w3-center w3-padding-48 w3-white">
-				<h1 class="w3-xxxlarge"><b>Infonete S.A.</b></h1>
+                <a href="index.php" style="text-decoration-line:none"><h1 class="w3-xxxlarge"><b>Infonete S.A.</b></h1></a>
 				<h6>Bienvenido al sitio de <span class="w3-tag">Infonete S.A.</span>
 					<?php //echo obtenerFechaYHoraActual()?>
 				</h6>
 			</header>
 
-			<!-- Image header -->
-			<header class="w3-display-container w3-wide" id="home">
-				<img class="w3-image" src="../imagenes/noticias.jpg" alt="Fashion Blog" width="1600" height="1060">
+            <?php
+            $resultado = obtenerPublicaciones("aprobada");
+            if($resultado){
+                $resultado->data_seek(0);
+
+                echo "<div class=\"w3-bar w3-black w3-hide-small\">";
+                while($fila = $resultado->fetch_assoc()){
+                    echo "<a href=\"indexContenidista.php?publicacion=" . $fila['nombre'] . "\" class=\"w3-bar-item w3-button\">" . $fila['nombre'] . "</a>";
+                }
+                echo "</div>";
+
+                $resultado->free();
+            }
+            ?>
+
+            <!-- Image header -->
+            <header class="w3-display-container w3-wide" id="home">
+                <?php if(!isset($_GET['publicacion'])){
+                    echo "<img class=\"w3-image\" src=\"../imagenes/noticias.jpg\" alt=\"Fashion Blog\" width=\"1600\" height=\"1060\" >";
+                } else {
+                    echo "<img class=\"w3-image\" src=\"../publicaciones/" . $_GET['publicacion'] . ".jpg\" width=\"1600\" height=\"1060\" >";
+                } ?>
 				<div class="w3-display-left w3-padding-large">
 					<h1 class="w3-text-white">Infonete S.A</h1>
 					<h1 class="w3-jumbo w3-text-white w3-hide-small"><b>NOTICIAS DIGITALES</b></h1>

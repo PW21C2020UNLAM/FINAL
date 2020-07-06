@@ -34,8 +34,6 @@ function obtenerNoticiasSegunUsuario($usuario, $condicion){
 			if($condicion=='aceptadas'){
 				if($suscripto){
 					$consulta = "SELECT idNoticia FROM noticias WHERE estado='aceptada' ORDER BY idNoticia DESC";
-				}else{
-					$consulta = "SELECT idNoticia FROM noticias WHERE estado='aceptada' AND esPremium=false ORDER BY idNoticia DESC";
 				}
 			}else{
 				if($condicion=='rechazadas'){
@@ -77,7 +75,7 @@ function obtenerSuscripcion($usuario){ // retorna true o false indicando si est√
 			mysqli_close($connection);
 			return false;
 		}else{
-			$consulta = "SELECT suscriptor FROM usuario WHERE usuario='$usuario'";
+			$consulta = "SELECT suscriptorPorDefecto FROM usuario WHERE usuario='$usuario'";
 			$resultado = mysqli_query($connection, $consulta);
 			if ($resultado) {
 				$columna=mysqli_fetch_array($resultado);
@@ -246,7 +244,7 @@ function cargarNoticiaEnBaseDeDatos($nombre, $paqueteForm){
 			return "Error al acceder a la base de datos";
 		}else{
 			$esPremium = ( $paqueteForm=="ninguno"? false : true ); // los paquetes son 'ninguno', 'diario' y 'revista'
-			$sql = "INSERT INTO noticias (idNoticia, esPremium, paquete, cantidadDescargas, estado) VALUES ('$nombre', '$esPremium', '$paqueteForm', 0, 'pendiente')"; // los estados son 'pendiente', 'aprobada' y 'rechazada'
+			$sql = "INSERT INTO noticias (idNoticia, esPremium, cantidadDescargas, estado) VALUES ('$nombre', '$esPremium', 0, 'pendiente')"; // los estados son 'pendiente', 'aprobada' y 'rechazada'
 			if (!mysqli_query($connection, $sql)) {
 				mysqli_close($connection);
 				return "No se pudo insertar en la base de datos";
