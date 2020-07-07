@@ -44,9 +44,10 @@ function obtenerNoticiasSegunUsuario($usuario, $condicion){
                     $consulta = "SELECT idNoticia FROM noticias WHERE estado='pendiente' ORDER BY idNoticia ASC";
                 }
             }
-            die("consulta:" . $consulta);
+            // die("consulta:" . $consulta);
             $resultado = mysqli_query($connection, $consulta);
-            if (mysqli_num_rows($resultado)>0) {
+            // if (mysqli_num_rows($resultado)>0) {
+            if ($resultado) {
                 while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC)){
                     $nuevo_array[]=$fila;
                 }
@@ -199,11 +200,11 @@ function imprimirNoticiaPendiente($archivo, $directorio){
     echo $noticia['articulo'];
     echo '</div>
 								<form action="aceptarNoticia.php" method="post" enctype="application/x-www-form-urlencoded">
-									<input type="hidden" name="idNoticia" value="'.$idNoticia.'"/>
+									<input type="hidden" name="idNoticia" value="'.$nombre.'"/>
 									<input class="w3-btn w3-black" type="submit" value="Validar noticia">
 								</form><br>
 								<form action="rechazarNoticia.php" method="post" enctype="application/x-www-form-urlencoded">
-									<input type="hidden" name="idNoticia" value="'.$idNoticia.'"/>
+									<input type="hidden" name="idNoticia" value="'.$nombre.'"/>
 									<input class="w3-btn w3-black" type="submit" value="Rechazar noticia">
 								</form>
 							</div>
