@@ -101,7 +101,6 @@ function imprimirNoticia($archivo, $directorio, $usuario){
 										<input type="hidden" name="pdf" value="'.$noticia['titulo']."|".$noticia['tituloDesc']."|".$noticia['tituloDesc2']."|".$directorio.$noticia['imagenEXT']."|".$noticia['articulo'].'"/>
 										<input type="hidden" name="usuario" value="'.$usuario.'"/>
 										<input type="hidden" name="idNoticia" value="'.$idNoticia.'"/>
-										
 										<input class="w3-btn w3-black" type="submit" value="Descargar como PDF"><br><br>
 									</form>'
 
@@ -198,13 +197,13 @@ function imprimirNoticiaPendiente($archivo, $directorio){
     echo $noticia['imagenEXT'];
     echo '" style="width:100%" class="w3-padding-16"><p>';
     echo $noticia['articulo'];
-    echo '</div>  
+    echo '</div>
 								<form action="aceptarNoticia.php" method="post" enctype="application/x-www-form-urlencoded">
-									<input type="hidden" name="directorio" value="'.$nombre.'"/>
+									<input type="hidden" name="idNoticia" value="'.$idNoticia.'"/>
 									<input class="w3-btn w3-black" type="submit" value="Validar noticia">
 								</form><br>
 								<form action="rechazarNoticia.php" method="post" enctype="application/x-www-form-urlencoded">
-									<input type="hidden" name="directorio" value="'.$nombre.'"/>
+									<input type="hidden" name="idNoticia" value="'.$idNoticia.'"/>
 									<input class="w3-btn w3-black" type="submit" value="Rechazar noticia">
 								</form>
 							</div>
@@ -255,7 +254,6 @@ function cargarNoticiaEnBaseDeDatos($nombre, $publicacionForm){
     }
     mysqli_close($connection);
     return "¡Se subió exitosamente la noticia!";
-
 }
 
 function moverNoticiaAceptada($fileNameTXT){
