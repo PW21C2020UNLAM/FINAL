@@ -2,6 +2,7 @@
 	session_start(); // session_id() DEVUELVE ID DE SESIÓN ACTUAL O CADENA VACÍA "" SI NO HAY SESIÓN ACTUAL
 	include_once("../controladores/validar.php");
 	include_once("../controladores/cargarNoticias.php");
+    include_once("../controladores/cargarPublicaciones.php");
 	
 	$user=$_SESSION['usuario'];
 	if(!esUsuarioValido($_SESSION['usuario'],$_SESSION['clave'])){
@@ -84,12 +85,21 @@
 					<label for="subject">Cuerpo de la noticia (usar formato HTML):</label>
 					<textarea id="subject" name="cuerpoForm" placeholder="Escribe algo..." style="height:200px" required></textarea>
 					
-					<label for="fname">Seleccionar paquete:</label>
-					<p>
-						<input type="radio" name="paqueteForm" value="diario" required> Diario<br>
-						<input type="radio" name="paqueteForm" value="revista"> Revista<br>
-						<input type="radio" name="paqueteForm" value="ninguno"> Ninguno<br><br>
-					</p>
+					<label>Seleccionar publicación:</label>
+                    <select name="publicacionForm">
+                        <?php
+                        $resultado = obtenerPublicaciones("aprobada");
+                        if($resultado){
+                            $resultado->data_seek(0);
+
+                            while($fila = $resultado->fetch_assoc()){
+                                echo "<option value='" . $fila['nombre'] . "'>" . $fila['nombre'] . "</option>";
+                            }
+
+                            $resultado->free();
+                        }
+                        ?>
+                    </select>
 					<input type="submit" value="Enviar">
 				</form>
 		

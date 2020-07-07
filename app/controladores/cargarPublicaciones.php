@@ -133,5 +133,4 @@ function modificarEstadoDePublicacion($fileNameJPG, $estado){
         return "¡Publicación aceptada con exito!";
 }
 
-
 ?>

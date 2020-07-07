@@ -55,6 +55,7 @@
 
 
             <?php
+            // $resultado
             $resultado = obtenerPublicaciones("aprobada");
             if($resultado){
                 $resultado->data_seek(0);
