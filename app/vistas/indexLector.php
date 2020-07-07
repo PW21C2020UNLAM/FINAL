@@ -1,6 +1,7 @@
 <?php
 	session_start();
 	include_once("../controladores/validar.php");
+	include_once("../controladores/cargarPublicaciones.php");
 	include_once("../controladores/cargarNoticias.php");
 	// insertarAdmin("su","su");
 	
@@ -38,7 +39,6 @@
             <a href="miPerfil.php" class="w3-bar-item w3-button">Mi Perfil</a>
 			<a href="misSuscripciones.php" class="w3-bar-item w3-button">Mis suscripciones</a>
 			<a href="logout.php" class="w3-bar-item w3-button">Salir</a>
-			
 		</div>
 
 		<!-- w3-content defines a container for fixed size centered content, 
@@ -47,15 +47,36 @@
 
 			<!-- Header -->
 			<header class="w3-container w3-center w3-padding-48 w3-white">
-				<h1 class="w3-xxxlarge"><b>Infonete S.A.</b></h1>
+                <a href="index.php" style="text-decoration-line:none"><h1 class="w3-xxxlarge"><b>Infonete S.A.</b></h1></a>
 				<h6>Bienvenido al sitio de <span class="w3-tag">Infonete S.A.</span>
 					<?php //echo obtenerFechaYHoraActual()?>
 				</h6>
 			</header>
 
+
+            <?php
+            // $resultado
+            $resultado = obtenerPublicaciones("aprobada");
+            if($resultado){
+                $resultado->data_seek(0);
+
+                echo "<div class=\"w3-bar w3-black w3-hide-small\">";
+                while($fila = $resultado->fetch_assoc()){
+                    echo "<a href=\"indexLector.php?publicacion=" . $fila['nombre'] . "\" class=\"w3-bar-item w3-button\">" . $fila['nombre'] . "</a>";
+                }
+                echo "</div>";
+
+                $resultado->free();
+            }
+            ?>
+
 			<!-- Image header -->
 			<header class="w3-display-container w3-wide" id="home">
-				<img class="w3-image" src="../imagenes/noticias.jpg" alt="Fashion Blog" width="1600" height="1060">
+                <?php if(!isset($_GET['publicacion'])) {
+                    echo "<img class=\"w3-image\" src=\"../imagenes/noticias.jpg\" alt=\"Fashion Blog\" width=\"1600\" height=\"1060\" >";
+                } else {
+                    echo "<img class=\"w3-image\" src=\"../publicaciones/" . $_GET['publicacion'] . ".jpg\" width=\"1600\" height=\"1060\" >";
+                } ?>
 				<div class="w3-display-left w3-padding-large">
 					<h1 class="w3-text-white">Infonete S.A</h1>
 					<h1 class="w3-jumbo w3-text-white w3-hide-small"><b>NOTICIAS DIGITALES</b></h1>

@@ -1,6 +1,6 @@
 <?php
 $user = "root";
-$pass = "";
+$pass = "beatport";
 $host = "localhost";
 
 $connection = mysqli_connect($host, $user, $pass);

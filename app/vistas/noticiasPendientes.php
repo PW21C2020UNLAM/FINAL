@@ -34,7 +34,7 @@
 		<div class="w3-bar w3-black w3-hide-small">
 			<div class="w3-bar-item">Admin: <?php echo $user?></div>
 			<a href="indexAdmin.php" class="w3-bar-item w3-button">Volver</a>
-			<a href="verRechazadas.php" class="w3-bar-item w3-button">Ver rechazadas</a>
+			<a href="noticiasRechazadas.php" class="w3-bar-item w3-button">Ver noticias rechazadas</a>
 			<a href="logout.php" class="w3-bar-item w3-button">Salir</a>
 		</div>
 
