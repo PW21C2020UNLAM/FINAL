@@ -91,7 +91,13 @@
 				<!-- Blog entries -->
 				<div class="w3-col l8 s12">
 
-				<?php mostrarNoticias(($_SESSION['usuario'])); ?>
+                <?php
+                if(isset($_GET['publicacion'])){
+                    mostrarNoticias(($_SESSION['usuario']), $_GET['publicacion']);
+                } else {
+                    echo "<div class=\"w3-center\"></div><hr>";
+                }
+                ?>
 
 				<!-- END BLOG ENTRIES -->
 				</div>

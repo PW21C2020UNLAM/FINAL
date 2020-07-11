@@ -44,10 +44,34 @@
 							<div class="w3-container  w3-padding w3-light-grey w3-margin-top ">
 								<div class="w3-container w3-black">
 									<h2 class="w3-lobster">Actualmente posee las siguientes suscripciones:</h2>
-								</div>   
-								<form action="misSuscripciones.php" method="post" enctype="application/x-www-form-urlencoded"><br><br>
-									<label class="w3-text-black"><?php echo consultarSuscripciones($_SESSION['usuario']);?>
-								</form>
+								</div><br>
+                                <?php
+                                $suscripciones = consultarSuscripciones($_SESSION['usuario']);
+                                $suscripciones->data_seek(0);
+                                echo "<table style='display: inline-block'>
+                                      <tr style='text-align: left'>
+                                            <td style='padding: 11px'><b>Nombre de publicación</b></td>
+                                            <td style='padding: 11px'><b>Tipo de suscripción</b></td>
+                                      </tr>
+                                      <tr style='text-align: left'>
+                                            <td style='padding: 11px'>Caras</td>
+                                            <td style='padding: 11px'>Suscripción gratuita</td>
+                                      </tr>
+                                      <tr style='text-align: left'>
+                                            <td style='padding: 11px'>El Grafico</td>
+                                            <td style='padding: 11px'>Suscripción gratuita</td>
+                                      </tr>";
+                                while($fila = $suscripciones->fetch_assoc()){
+                                echo "<tr style='text-align: left'>
+                                            <td style='padding: 11px'>" . $fila['nombre'] . "</td>
+                                            <td style='padding: 11px'>Suscripción paga</td>
+                                            <td><a href=\"cancelarSuscripcion.php?publicacion=" . $fila['nombre'] . "\" class=\"w3-btn w3-black\">Cancelar suscripción</a></td>
+                                      </tr>";
+                                }
+                                echo "</table><br/>";
+
+                                $suscripciones->free();
+                                ?>
 							</div>
 						</div> 
 					</div>

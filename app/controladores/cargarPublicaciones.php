@@ -133,4 +133,29 @@ function modificarEstadoDePublicacion($fileNameJPG, $estado){
         return "¡Publicación aceptada con exito!";
 }
 
+function cancelarSuscripcion($usuario, $publicacion){
+    $credenciales = obtenerCredencialesArchivoINI("../database.ini");
+    $connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'], 'pw2');
+
+    if (!$connection) {
+        return false;
+    } else {
+        $datab = "pw2";
+        $db = mysqli_select_db($connection, $datab);
+        if (!$db) {
+            mysqli_close($connection);
+            return false;
+        } else {
+            $idPublicacion = obtenerIdDePublicacion($publicacion);
+            $sql = "DELETE FROM suscripcion WHERE usuario = '$usuario' AND idPublicacion = '$idPublicacion'"; // los estados son 'pendiente', 'aprobada' y 'rechazada'
+            if (!mysqli_query($connection, $sql)) {
+                mysqli_close($connection);
+                return false;
+            }
+        }
+    }
+    mysqli_close($connection);
+    return true;
+}
+
 ?>

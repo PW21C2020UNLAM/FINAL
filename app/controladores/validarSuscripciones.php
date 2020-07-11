@@ -9,16 +9,12 @@ function consultarSuscripciones($usuario){
 	if(!$connection){
 		echo "Error del servidor, intente nuevamente más tarde...";
 	}
-	$consulta = "SELECT suscriptor FROM usuario WHERE usuario='$usuario'";
+	$consulta = "SELECT nombre FROM publicacion INNER JOIN suscripcion ON publicacion.idPublicacion = 
+                    suscripcion.idPublicacion WHERE usuario LIKE '$usuario';";
 	$resultado = mysqli_query($connection, $consulta);
-	$columna=mysqli_fetch_array($resultado);
-	if(  $columna['suscriptor']==false ){
-		mysqli_close($connection);
-		echo "Usuario NO suscripto...";
-	}else{
-		mysqli_close($connection);
-		echo 'Usuario suscripto</label> <input type="hidden" name="eliminarSuscripcion" value=""/><input class="w3-btn w3-black" type="submit" value="Eliminar suscripcion"> <br><br>';
-	}
+	if($resultado){
+	    return $resultado;
+    }
 }
 
 function eliminarSuscripcion($usuario){

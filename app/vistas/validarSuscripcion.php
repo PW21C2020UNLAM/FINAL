@@ -39,7 +39,7 @@
 				<div class="w3-padding-32 w3-center w3-row">			
 					<div class="w3-container  w3-padding w3-light-grey w3-margin-top ">
 						<div class="w3-container w3-black">
-							<h2 class="w3-lobster"><?php echo validarSuscribirse($_SESSION['usuario'],$_POST['num'],$_POST['cla']);?></h2>
+							<h2 class="w3-lobster"><?php echo validarSuscribirse($_SESSION['usuario'],$_POST['num'],$_POST['cla'],$_POST['publicacion']);?></h2>
 							<!-- Falta el código para agregar la suscripción -->
 						</div>
 						<br><br>

@@ -90,7 +90,29 @@
 				<!-- Blog entries -->
 				<div class="w3-col l8 s12">
 
-				<?php mostrarNoticias(($_SESSION['usuario'])); ?>
+				<?php
+                if(isset($_GET['publicacion'])&&($_GET['publicacion']=="Caras"||$_GET['publicacion']=="El Grafico")){
+                    mostrarNoticias($_SESSION['usuario'], $_GET['publicacion']);
+                }else if(isset($_GET['publicacion'])&&($_GET['publicacion']!="Caras"&&$_GET['publicacion']!="El Grafico")) {
+                    $suscripto = obtenerSuscripcion($_SESSION['usuario'], $_GET['publicacion']);
+                    if (isset($_GET['publicacion']) && $suscripto == true) {
+                        mostrarNoticias($_SESSION['usuario'], $_GET['publicacion']);
+                    } else if (isset($_GET['publicacion']) && $suscripto == false) {
+                        echo "<!-- Subscribe -->
+                              <div class=\"w3-white w3-margin\">
+                                  <div class=\"w3-container w3-padding w3-black\">
+                                      <h4>¡Suscríbete a las publicaciones premium!</h4>
+                                  </div>
+                                  <div class=\"w3-container w3-white\">
+                                      <p>Suscríbete para acceder al contenido de esta publicación utilizando tu tarjeta de crédito.</p>
+                                      <p><button type=\"button\" onclick=\"document.getElementById('subscribe').style.display='block'\" class=\"w3-button w3-block w3-red\">Suscribirse</button></p>
+                                  </div>
+                              </div>";
+                    }
+                } else {
+                    echo "<div class=\"w3-center\"></div><hr>";
+                }
+                ?>
 
 				<!-- END BLOG ENTRIES -->
 				</div>
@@ -126,7 +148,7 @@
 					</div>
 					<hr>
 
-					<!-- Subscribe -->
+					<!-- Subscribe
 					<div class="w3-white w3-margin">
 						<div class="w3-container w3-padding w3-black">
 							<h4>¡Suscríbete a los paquetes premium!</h4>
@@ -135,7 +157,7 @@
 							<p>Suscríbete para acceder al paquete premium utilizando tu tarjeta de crédito.</p>
 							<p><button type="button" onclick="document.getElementById('subscribe').style.display='block'" class="w3-button w3-block w3-red">Suscribirse</button></p>
 						</div>
-					</div>
+					</div> -->
 
 					<!-- END About/Intro Menu -->
 				</div>
@@ -156,7 +178,8 @@
 						<p>Completa con los datos de tu tarjeta de crédito para acceder al mejor contenido.</p>
 						<p><input class="w3-input w3-border" name="num" type="text" placeholder="Número de tarjeta" required></p>
 						<p><input class="w3-input w3-border" name="cla" type="password" placeholder="Código de seguridad" required></p>
-						<input class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom" type="submit" value="Enviar"></input>
+                        <input type="hidden" name="publicacion" value="<?php echo $_GET["publicacion"] ?>"/>
+                        <input class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom" type="submit" value="Enviar"></input>
 					</form>
 				</div>
 			</div>
