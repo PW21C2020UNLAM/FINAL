@@ -3,7 +3,8 @@
 	include_once("../controladores/validar.php");
 	include_once("../controladores/obtenerPerfil.php");
 	$user=$_SESSION['usuario'];
-	if(!esUsuarioValido($_SESSION['usuario'],$_SESSION['clave'])){
+	$rol=obtenerRolUsuario($user);
+	if($rol!="lector"){
 		header("Location: ../index.php");
 	}
 	$datos=obtenerDatosPerfil($user);

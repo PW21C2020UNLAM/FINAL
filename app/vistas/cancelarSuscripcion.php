@@ -6,7 +6,6 @@ $user=$_SESSION['usuario'];
 if(!esUsuarioValido($_SESSION['usuario'],$_SESSION['clave'])){
 header("Location: ../index.php");
 }
-$cancelacionExitosa=false;
 ?>
 
 <!DOCTYPE html>
@@ -45,11 +44,11 @@ and is wrapped around the whole page content, except for the footer in this exam
                     <h2 class="w3-lobster">
                         <?php
                         if(isset($_GET["publicacion"])){
-                            $subidaExitosa = cancelarSuscripcion($user, $_GET["publicacion"]);
+                            $cancelacionExitosa = cancelarSuscripcion($user, $_GET["publicacion"]);
                         }else{
                             echo "ERROR";
                         }
-                        if($subidaExitosa){
+                        if($cancelacionExitosa){
                             echo '¡Suscripción cancelada con exito!</h2></div><br><br><a href="indexLector.php"><input class="w3-btn w3-black" type="submit" value="Volver al inicio"></a>';
                         }else{
                             echo '</div><br><br><a href="misSuscripciones.php"><input class="w3-btn w3-black" type="submit" value="Reintentar"></a>';

@@ -17,7 +17,7 @@ function insertarAdmin($usuario, $clave){
 			return;
 		}else{
 			$clave = md5($clave);
-			$sql = "INSERT INTO usuario (usuario, clave, email, rol, suscriptor) VALUES ('$usuario', '$clave', '$email', 'admin', true)";
+			$sql = "INSERT INTO usuario (usuario, clave, email, rol) VALUES ('$usuario', '$clave', '$email', 'admin')";
 			if (mysqli_query($connection, $sql)) {
 				return;
 			} else {
@@ -164,7 +164,7 @@ function esUsuarioValido($usuarioIngresado,$claveIngresada){
 			$resultado = mysqli_query($connection, $consulta);
 			if ($resultado) {
 				$columna=mysqli_fetch_array($resultado);
-				if($columna&&$columna['clave']==md5($claveIngresada)){
+				if($columna['clave']==md5($claveIngresada)){
 						mysqli_close($connection);
 						return true;
 					}
@@ -232,30 +232,30 @@ function eliminarCuenta($usuario, $clave){
 	return false;
 }
 
-function eliminarCuentaAdmin($usuarioDelete,$usr,$clave){
+function eliminarCuentaAdmin($usuarioDelete,$user,$clave){
 	$credenciales=obtenerCredencialesArchivoINI("../database.ini");
-	$email = "administracion@infonete.com";
 	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'],'pw2');
-	$resultado=false;
-	if(!esUsuarioValido($usr,$clave)){
+	if(!esUsuarioValido($user,$clave)){
 		return false;
 	}
-	if(obtenerRolUsuario($usr)!="admin"){
+	if(obtenerRolUsuario($user)!="admin"){
 		return false;
 	}
 	if(!$connection){
-		return $resultado;
+		return false;
 	}
 	if(obtenerRolUsuario($usuarioDelete)){
-		$consulta = "DELETE FROM usuario WHERE usuario='$usuarioDelete'";
+		$consulta = "DELETE FROM usuario WHERE usuario.usuario='$usuarioDelete'";
 		if(mysqli_query($connection,$consulta)){
-			$resultado=true;
+            mysqli_close($connection);
+			return true;
 		}else{
-			$resultado=false;
+            mysqli_close($connection);
+			return false;
 		}
 	}
 	mysqli_close($connection);
-	return $resultado;
+	return false;
 }
 
 function validarSuscribirse($usuario, $numero, $codigoSeguridad, $publicacion){
@@ -292,7 +292,6 @@ function validarSuscribirse($usuario, $numero, $codigoSeguridad, $publicacion){
 
 function obtenerRolUsuario($userName){
 	$credenciales=obtenerCredencialesArchivoINI("../database.ini");
-	$email = "administracion@infonete.com";
 
 	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'],'pw2');
 
@@ -306,14 +305,14 @@ function obtenerRolUsuario($userName){
 			mysqli_close($connection);
 			return null;
 		}else{
-			$consulta = "SELECT rol FROM usuario WHERE usuario='$userName'";
+			$consulta = "SELECT rol FROM usuario WHERE usuario.usuario='$userName'";
 			$resultado = mysqli_query($connection, $consulta);
 			if ($resultado) {
 				$columna=mysqli_fetch_array($resultado);
 				if($columna){
-						mysqli_close($connection);
-						return $columna['rol'];
-					}
+                    mysqli_close($connection);
+                    return $columna['rol'];
+				}
 			}
 		}
 		mysqli_close($connection);

@@ -2,8 +2,6 @@
 	session_start(); // session_id() DEVUELVE ID DE SESIÓN ACTUAL O CADENA VACÍA "" SI NO HAY SESIÓN ACTUAL
 	include_once("../controladores/validar.php");
 	include_once("../controladores/cargarNoticias.php");
-	
-	$user=$_SESSION['usuario'];
 	if(!esUsuarioValido($_SESSION['usuario'],$_SESSION['clave'])){
 		header("Location: ../index.php");
 	}else{
@@ -48,7 +46,7 @@
 								<div class="w3-container w3-black">
 									<h2 class="w3-lobster">
 									<?php
-										$userDelete = $_POST['usr']; 
+										$userDelete = $_POST['usr'];
 										$clave = $_POST['clave'];
 										$user = $_SESSION['usuario'];
 										$resultadoBorrarUsuario=eliminarCuentaAdmin($userDelete,$user,$clave);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-07-2020 a las 01:55:20
+-- Tiempo de generación: 13-07-2020 a las 09:17:59
 -- Versión del servidor: 8.0.18
 -- Versión de PHP: 7.4.4
 
@@ -31,24 +31,33 @@ CREATE TABLE `noticias` (
   `cantidadDescargas` int(20) NOT NULL,
   `estado` varchar(20) NOT NULL,
   `idNoticia` varchar(20) NOT NULL,
-  `idPublicacion` int(11) NOT NULL
+  `idPublicacion` int(11) NOT NULL,
+  `tituloForm` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `subtituloForm` varchar(1000) NOT NULL,
+  `fechaForm` varchar(50) NOT NULL,
+  `imagenJPG` varchar(20) NOT NULL,
+  `cuerpoForm` varchar(9999) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `noticias`
 --
 
-INSERT INTO `noticias` (`cantidadDescargas`, `estado`, `idNoticia`, `idPublicacion`) VALUES
-(0, 'rechazada', '20200628165816', 1),
-(5, 'aceptada', '20200628165850', 1),
-(0, 'aceptada', '20200628165912', 6),
-(9, 'aceptada', '20200628185307', 6),
-(1, 'aceptada', '20200628205914', 1),
-(10, 'aceptada', '20200628214335', 2),
-(1, 'aceptada', '20200629003055', 2),
-(0, 'rechazada', '20200629190351', 3),
-(0, 'rechazada', '20200703211751', 6),
-(0, 'rechazada', '20200703220704', 7);
+INSERT INTO `noticias` (`cantidadDescargas`, `estado`, `idNoticia`, `idPublicacion`, `tituloForm`, `subtituloForm`, `fechaForm`, `imagenJPG`, `cuerpoForm`) VALUES
+(3, 'rechazada', '20200629190351', 3, 'rechazada1-3', 'subtitulosad', '29 de Junio de 2020', '20200629190351.jpg', 'sajkdhsjd shdjkdh sjahd sajjdhsa dsahdjksa as'),
+(0, 'rechazada', '20200703211751', 6, 'rechazada1-6', 'asdasdada', '03 de Julio de 2020', '20200703211751.jpg', 'hsahdhajshdjajskdfdd'),
+(4, 'rechazada', '20200703220704', 7, 'rechazada1-7', 'fdfdesdfsdf', '03 de Julio de 2020', '20200703220704.jpg', 'shdfgsah hgdgsh dgd'),
+(0, 'rechazada', '20200709220141', 6, 'rechazada2-6', 'fdsfsdfs', '09 de Julio de 2020', '20200709220141.jpg', 'dshadg sdghsad hdds'),
+(0, 'aceptada', '20200710004539', 8, 'aceptada1-8', 'dsagd dd', '10 de Julio de 2020', '20200710004539.jpg', 'fdsfg sdhfg dshfghsdf'),
+(12, 'aceptada', '20200710174150', 1, 'aceptada1-1', 'sddfsdfdfsd', '10 de Julio de 2020', '20200710174150.jpg', 'dsfsdfhg gefjhdfghdsf fd'),
+(0, 'aceptada', '20200710174241', 1, 'aceptada2-1', 'dsfdfdf sdff', '10 de Julio de 2020', '20200710174241.jpg', 'sdfsfsdfdhdjf dfjsjhffh'),
+(1, 'aceptada', '20200710174317', 1, 'aceptada3-1', 'dsf dsf sdf', '10 de Julio de 2020', '20200710174317.jpg', 'dfdfdfdfdusfu hjdfjhdsjf'),
+(0, 'aceptada', '20200710174357', 2, 'aceptada1-2', 'df esfsdf dsf', '10 de Julio de 2020', '20200710174357.jpg', 'shdgsahdghds shdghsa'),
+(3, 'aceptada', '20200710181501', 6, 'aceptada1-6', 'sdrfwefdsf', '10 de Julio de 2020', '20200710181501.jpg', 'fdsfsdfddfsdf fidsfdsdfd'),
+(2, 'aceptada', '20200710181833', 6, 'aceptada2-6', 'sdfdfdsf fhjdsf', '10 de Julio de 2020', '20200710181833.jpg', 'fdfdsfsdfsdf dsfsdfsdfd'),
+(7, 'aceptada', '20200710181914', 9, 'aceptada1-9', 'dsfds ffdfdsd', '10 de Julio de 2020', '20200710181914.jpg', 'fghghfhhghgh hghjjghg'),
+(14, 'aceptada', '20200711165803', 14, 'aceptada1-14', 'sdfff fdffdsd', '11 de Julio de 2020', '20200711165803.jpg', 'dfjhsdjkfhskdjkfjsdjk'),
+(0, 'rechazada', '20200712224909', 1, 'Soy un buen titular', 'No, yo soy un buen titular', '12 de Julio de 2020', '20200712224909.jpg', 'Cállense la boca. A mí tardan más en escribirme y me dedican más tiempo, manga de giles.');
 
 -- --------------------------------------------------------
 
@@ -74,7 +83,11 @@ INSERT INTO `publicacion` (`esPremium`, `estado`, `idPublicacion`, `nombre`) VAL
 (1, 'aprobada', 6, 'El Oso Ochentoso'),
 (1, 'rechazada', 7, 'Fulbacho'),
 (1, 'aprobada', 8, 'Zona Gamer'),
-(1, 'aprobada', 9, 'El Gourmet');
+(1, 'aprobada', 9, 'El Gourmet'),
+(1, 'aprobada', 10, 'El Garage'),
+(1, 'rechazada', 11, 'Animal Planet'),
+(1, 'rechazada', 12, 'Locomotion'),
+(1, 'aprobada', 14, 'AnimePlus');
 
 -- --------------------------------------------------------
 
@@ -93,7 +106,10 @@ CREATE TABLE `suscripcion` (
 --
 
 INSERT INTO `suscripcion` (`idSuscripcion`, `idPublicacion`, `usuario`) VALUES
-(1, 6, 'sebeatport');
+(1, 6, 'sebeatport'),
+(6, 10, 'prueba'),
+(9, 6, 'maxi'),
+(11, 14, 'sebi');
 
 -- --------------------------------------------------------
 
@@ -105,7 +121,6 @@ CREATE TABLE `usuario` (
   `clave` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `rol` varchar(50) NOT NULL,
-  `suscriptorPorDefecto` tinyint(1) NOT NULL,
   `usuario` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -113,13 +128,17 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`clave`, `email`, `rol`, `suscriptorPorDefecto`, `usuario`) VALUES
-('81dc9bdb52d04dc20036dbd8313ed055', 'conte@gg.com', 'contenidista', 1, 'conte'),
-('81dc9bdb52d04dc20036dbd8313ed055', 'contenidista@gg.com', 'contenidista', 1, 'contenidista'),
-('81dc9bdb52d04dc20036dbd8313ed055', 'sebeatport@gg.com', 'lector', 0, 'sebeatport'),
-('81dc9bdb52d04dc20036dbd8313ed055', 'sebi@gg.com', 'lector', 0, 'sebi'),
-('81dc9bdb52d04dc20036dbd8313ed055', 'sebicontenidista@gg.com', 'contenidista', 1, 'sebicontenidista'),
-('0b180078d994cb2b5ed89d7ce8e7eea2', 'administracion@infonete.com', 'admin', 1, 'su');
+INSERT INTO `usuario` (`clave`, `email`, `rol`, `usuario`) VALUES
+('81dc9bdb52d04dc20036dbd8313ed055', 'cacho@gg.com', 'lector', 'cacho'),
+('81dc9bdb52d04dc20036dbd8313ed055', 'conte2@gg.com', 'contenidista', 'conte2'),
+('81dc9bdb52d04dc20036dbd8313ed055', 'contenidista@gg.com', 'contenidista', 'contenidista'),
+('d93591bdf7860e1e4ee2fca799911215', 'j@gg.com', 'lector', 'jorge'),
+('81dc9bdb52d04dc20036dbd8313ed055', 'maxi@unlam.com', 'lector', 'maxi'),
+('81dc9bdb52d04dc20036dbd8313ed055', 'prueba@gg.com', 'lector', 'prueba'),
+('81dc9bdb52d04dc20036dbd8313ed055', 'sebeatport@gg.com', 'lector', 'sebeatport'),
+('81dc9bdb52d04dc20036dbd8313ed055', 'sebi@gg.com', 'lector', 'sebi'),
+('81dc9bdb52d04dc20036dbd8313ed055', 'sebicontenidista@gg.com', 'contenidista', 'sebicontenidista'),
+('0b180078d994cb2b5ed89d7ce8e7eea2', 'administracion@infonete.com', 'admin', 'su');
 
 --
 -- Índices para tablas volcadas
@@ -160,13 +179,13 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `publicacion`
 --
 ALTER TABLE `publicacion`
-  MODIFY `idPublicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `idPublicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `suscripcion`
 --
 ALTER TABLE `suscripcion`
-  MODIFY `idSuscripcion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idSuscripcion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Restricciones para tablas volcadas

@@ -31,15 +31,23 @@
 	</style>
 
 	<body class="w3-light-grey">
+        <!-- Header -->
+        <header class="w3-container w3-center w3-padding-48 w3-white">
+            <a href="index.php" style="text-decoration-line:none"><h1 class="w3-xxxlarge"><b>Infonete S.A.</b></h1></a>
+            <h6>Bienvenido al sitio de <span class="w3-tag">Infonete S.A.</span>
+                <?php //echo obtenerFechaYHoraActual()?>
+            </h6>
+        </header>
+
 		<!-- Navigation bar with social media icons -->
 		<div class="w3-bar w3-black w3-hide-small">
 			<div class="w3-bar-item">Admin: <?php echo $user?></div>
-            <a href="publicacionesPendientes.php" class="w3-bar-item w3-button">Gestionar publicaciones</a>
-			<a href="noticiasPendientes.php" class="w3-bar-item w3-button">Gestionar noticias</a>
+            <a href="publicacionesPendientes.php" class="w3-bar-item w3-button">Gestionar Publicaciones</a>
+			<a href="noticiasPendientes.php" class="w3-bar-item w3-button">Gestionar Noticias</a>
 			<a href="registroContenidista.php" class="w3-bar-item w3-button">Registrar Contenidista</a>
-			<a href="cambiarClave.php" class="w3-bar-item w3-button">Cambiar clave</a>
-			<a href="eliminarCuenta.php" class="w3-bar-item w3-button">Eliminar cuenta</a>
-			<a href="gestionarUsuarios.php" class="w3-bar-item w3-button">Gestionar usuarios</a>
+			<a href="cambiarClave.php" class="w3-bar-item w3-button">Cambiar Clave</a>
+			<a href="eliminarCuenta.php" class="w3-bar-item w3-button">Eliminar Cuenta</a>
+			<a href="gestionarUsuarios.php" class="w3-bar-item w3-button">Gestionar Usuarios</a>
 			<a href="verReportes.php" class="w3-bar-item w3-button">Ver Reportes</a>
 			<a href="logout.php" class="w3-bar-item w3-button">Salir</a>
 		</div>
@@ -47,14 +55,6 @@
 		<!-- w3-content defines a container for fixed size centered content, 
 		and is wrapped around the whole page content, except for the footer in this example -->
 		<div class="w3-content" style="max-width:1600px">
-
-			<!-- Header -->
-			<header class="w3-container w3-center w3-padding-48 w3-white">
-                <a href="index.php" style="text-decoration-line:none"><h1 class="w3-xxxlarge"><b>Infonete S.A.</b></h1></a>
-				<h6>Bienvenido al sitio de <span class="w3-tag">Infonete S.A.</span>
-					<?php //echo obtenerFechaYHoraActual()?>
-				</h6>
-			</header>
 
             <?php
             $resultado = obtenerPublicaciones("aprobada");
