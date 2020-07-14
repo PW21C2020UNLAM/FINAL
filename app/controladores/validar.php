@@ -162,12 +162,12 @@ function esUsuarioValido($usuarioIngresado,$claveIngresada){
 		}else{
 			$consulta = "SELECT clave FROM usuario WHERE usuario='$usuarioIngresado'";
 			$resultado = mysqli_query($connection, $consulta);
-			if ($resultado) {
+			if (mysqli_num_rows($resultado) > 0) {
 				$columna=mysqli_fetch_array($resultado);
 				if($columna['clave']==md5($claveIngresada)){
-						mysqli_close($connection);
-						return true;
-					}
+                    mysqli_close($connection);
+                    return true;
+                }
 			}
 		}
 		mysqli_close($connection);
@@ -424,7 +424,6 @@ function obtenerLasXNoticiasMasDescargadas($numeroX){
 		}else{
 			$consulta = "SELECT tituloForm, subtituloForm, imagenJPG FROM noticias WHERE estado='aceptada' ORDER BY cantidadDescargas DESC LIMIT $numeroX";
 			$resultado = mysqli_query($connection, $consulta);
-			$retorno;
 			if ($resultado) {
 				while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC)){
 					$retorno[]=$fila;

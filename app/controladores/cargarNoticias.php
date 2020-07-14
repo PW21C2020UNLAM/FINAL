@@ -1,6 +1,7 @@
 <?php
-
-include_once("../fpdf/fpdf.php");
+if(file_exists("../fpdf/fpdf.php")){
+	include_once("../fpdf/fpdf.php");
+}
 /*
 function mostrarNoticias($usuario){
     // $arrayDirectorio = scandir("../noticias/imagenes", 1); -> Todos los ID's de noticias + ".jpg"

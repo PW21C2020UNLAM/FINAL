@@ -46,7 +46,7 @@ if(!esUsuarioValido($_SESSION['usuario'],$_SESSION['clave'])){
     <div class="w3-bar-item">Usuario: <?php echo $user?></div>
     <a href="miPerfil.php" class="w3-bar-item w3-button">Mi Perfil</a>
     <a href="misSuscripciones.php" class="w3-bar-item w3-button">Mis Suscripciones</a>
-    <a href="logout.php" class="w3-bar-item w3-button">Salir</a>
+    <a href="logout.php" class="w3-bar-item w3-button">Cerrar Sesión</a>
 </div>
 
 <!-- w3-content defines a container for fixed size centered content,

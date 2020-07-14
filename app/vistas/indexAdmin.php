@@ -42,14 +42,13 @@
 		<!-- Navigation bar with social media icons -->
 		<div class="w3-bar w3-black w3-hide-small">
 			<div class="w3-bar-item">Admin: <?php echo $user?></div>
+            <a href="miPerfil.php" class="w3-bar-item w3-button">Mi Perfil</a>
             <a href="publicacionesPendientes.php" class="w3-bar-item w3-button">Gestionar Publicaciones</a>
 			<a href="noticiasPendientes.php" class="w3-bar-item w3-button">Gestionar Noticias</a>
 			<a href="registroContenidista.php" class="w3-bar-item w3-button">Registrar Contenidista</a>
-			<a href="cambiarClave.php" class="w3-bar-item w3-button">Cambiar Clave</a>
-			<a href="eliminarCuenta.php" class="w3-bar-item w3-button">Eliminar Cuenta</a>
 			<a href="gestionarUsuarios.php" class="w3-bar-item w3-button">Gestionar Usuarios</a>
 			<a href="verReportes.php" class="w3-bar-item w3-button">Ver Reportes</a>
-			<a href="logout.php" class="w3-bar-item w3-button">Salir</a>
+			<a href="logout.php" class="w3-bar-item w3-button">Cerrar Sesión</a>
 		</div>
 
 		<!-- w3-content defines a container for fixed size centered content, 

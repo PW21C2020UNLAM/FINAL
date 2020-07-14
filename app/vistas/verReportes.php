@@ -57,7 +57,7 @@
                                 <br><label class="w3-text-brown w3-left">Total de publicaciones pendientes: <?php echo obtenerTotalPublicaciones("pendiente");?></label>
                                 <br><label class="w3-text-brown w3-left">Total de publicaciones rechazadas: <?php echo obtenerTotalPublicaciones("rechazada");?></label><br>
 
-                                <?php echo mostrarReportesEnPDF($user); ?><br><a href="index.php" class="w3-bar-item w3-button w3-black">Volver</a>
+                                <?php echo mostrarReportesEnPDF($user); ?>
                                 <!-- <a href="index.php" class="w3-bar-item w3-button w3-black">Ver en PDF</a> -->
 							</div>
 						</div> 

@@ -4,9 +4,6 @@
 	include_once("../controladores/obtenerPerfil.php");
 	$user=$_SESSION['usuario'];
 	$rol=obtenerRolUsuario($user);
-	if($rol!="lector"){
-		header("Location: ../index.php");
-	}
 	$datos=obtenerDatosPerfil($user);
 ?>
 
@@ -45,7 +42,19 @@
                         <div><br>
                             <h4 class="w3-text-brown">Usuario:</h4><?php echo $datos['usuario'] ?><br><br>
                             <h4 class="w3-text-brown">Email:</h4><?php echo $datos['email'] ?><br><br><br>
-                            <a href="cambiarEmail.php" class="w3-btn w3-black">Cambiar email</a>&nbsp;&nbsp;&nbsp;<a href="cambiarClave.php" class="w3-btn w3-black">Cambiar clave</a>&nbsp;&nbsp;&nbsp;<a href="eliminarCuenta.php" class="w3-btn w3-black">Eliminar cuenta</a>
+                            <?php
+                                switch($rol){
+                                    case "admin":
+                                        echo "<a href=\"cambiarClave.php\" class=\"w3-btn w3-black\">Cambiar Clave</a>&nbsp;&nbsp;&nbsp;<a href=\"eliminarCuenta.php\" class=\"w3-btn w3-black\">Eliminar Cuenta</a>";
+                                        break;
+                                    case "contenidista":
+                                        echo "<a href=\"cambiarClave.php\" class=\"w3-btn w3-black\">Cambiar Clave</a>&nbsp;&nbsp;&nbsp;<a href=\"eliminarCuenta.php\" class=\"w3-btn w3-black\">Eliminar Cuenta</a>";
+                                        break;
+                                    case "lector":
+                                        echo "<a href=\"cambiarEmail.php\" class=\"w3-btn w3-black\">Cambiar email</a>&nbsp;&nbsp;&nbsp;<a href=\"cambiarClave.php\" class=\"w3-btn w3-black\">Cambiar clave</a>&nbsp;&nbsp;&nbsp;<a href=\"eliminarCuenta.php\" class=\"w3-btn w3-black\">Eliminar cuenta</a>";
+                                        break;
+                               }
+                            ?>
                         </div>
                     </div>
                 </div>

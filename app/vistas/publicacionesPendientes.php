@@ -32,10 +32,8 @@ if(!esUsuarioValido($_SESSION['usuario'],$_SESSION['clave'])){
 <body class="w3-light-grey">
 <!-- Navigation bar with social media icons -->
 <div class="w3-bar w3-black w3-hide-small">
-    <div class="w3-bar-item">Admin: <?php echo $user?></div>
     <a href="indexAdmin.php" class="w3-bar-item w3-button">Volver</a>
     <a href="publicacionesRechazadas.php" class="w3-bar-item w3-button">Ver publicaciones rechazadas</a>
-    <a href="logout.php" class="w3-bar-item w3-button">Salir</a>
 </div>
 
 <!-- w3-content defines a container for fixed size centered content,
