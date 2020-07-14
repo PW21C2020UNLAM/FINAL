@@ -1,4 +1,5 @@
 <?php
+include_once("cargarNoticias.php");
 
 function insertarAdmin($usuario, $clave){
 	$credenciales=obtenerCredencialesArchivoINI("../database.ini");
@@ -16,7 +17,7 @@ function insertarAdmin($usuario, $clave){
 			return;
 		}else{
 			$clave = md5($clave);
-			$sql = "INSERT INTO usuario (usuario, clave, email, rol, suscriptor) VALUES ('$usuario', '$clave', '$email', 'admin', true)";
+			$sql = "INSERT INTO usuario (usuario, clave, email, rol) VALUES ('$usuario', '$clave', '$email', 'admin')";
 			if (mysqli_query($connection, $sql)) {
 				return;
 			} else {
@@ -46,7 +47,7 @@ function insertarContenidista($usuario, $clave, $email){
 			return "no_ok";
 		}else{
 			$clave = md5($clave);
-			$sql = "INSERT INTO usuario (usuario, clave, email, rol, suscriptor) VALUES ('$usuario', '$clave', '$email', 'contenidista', true)";
+			$sql = "INSERT INTO usuario (usuario, clave, email, rol) VALUES ('$usuario', '$clave', '$email', 'contenidista')";
 			if (mysqli_query($connection, $sql)) {
 				echo "¡Usuario creado exitosamente!";
 			} else {
@@ -110,7 +111,7 @@ function insertarUsuario($usuario, $clave, $email){
 			return "no_ok";
 		}else{
 			$clave = md5($clave);
-			$sql = "INSERT INTO usuario (usuario, clave, email, rol, suscriptor) VALUES ('$usuario', '$clave', '$email', 'lector', false)";
+			$sql = "INSERT INTO usuario (usuario, clave, email, rol) VALUES ('$usuario', '$clave', '$email', 'lector')";
 			if (mysqli_query($connection, $sql)) {
 				echo "¡Usuario creado exitosamente!";
 			} else {
@@ -161,12 +162,12 @@ function esUsuarioValido($usuarioIngresado,$claveIngresada){
 		}else{
 			$consulta = "SELECT clave FROM usuario WHERE usuario='$usuarioIngresado'";
 			$resultado = mysqli_query($connection, $consulta);
-			if ($resultado) {
+			if (mysqli_num_rows($resultado) > 0) {
 				$columna=mysqli_fetch_array($resultado);
-				if($columna&&$columna['clave']==md5($claveIngresada)){
-						mysqli_close($connection);
-						return true;
-					}
+				if($columna['clave']==md5($claveIngresada)){
+                    mysqli_close($connection);
+                    return true;
+                }
 			}
 		}
 		mysqli_close($connection);
@@ -231,33 +232,33 @@ function eliminarCuenta($usuario, $clave){
 	return false;
 }
 
-function eliminarCuentaAdmin($usuarioDelete,$usr,$clave){
+function eliminarCuentaAdmin($usuarioDelete,$user,$clave){
 	$credenciales=obtenerCredencialesArchivoINI("../database.ini");
-	$email = "administracion@infonete.com";
 	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'],'pw2');
-	$resultado=false;
-	if(!esUsuarioValido($usr,$clave)){
+	if(!esUsuarioValido($user,$clave)){
 		return false;
 	}
-	if(obtenerRolUsuario($usr)!="admin"){
+	if(obtenerRolUsuario($user)!="admin"){
 		return false;
 	}
 	if(!$connection){
-		return $resultado;
+		return false;
 	}
 	if(obtenerRolUsuario($usuarioDelete)){
-		$consulta = "DELETE FROM usuario WHERE usuario='$usuarioDelete'";
+		$consulta = "DELETE FROM usuario WHERE usuario.usuario='$usuarioDelete'";
 		if(mysqli_query($connection,$consulta)){
-			$resultado=true;
+            mysqli_close($connection);
+			return true;
 		}else{
-			$resultado=false;
+            mysqli_close($connection);
+			return false;
 		}
 	}
 	mysqli_close($connection);
-	return $resultado;
+	return false;
 }
 
-function validarSuscribirse($usuario, $numero, $codigoSeguridad){
+function validarSuscribirse($usuario, $numero, $codigoSeguridad, $publicacion){
 	if (is_numeric($numero) && is_numeric($codigoSeguridad)) {
 		$credenciales=obtenerCredencialesArchivoINI("../database.ini");
 		$email = "administracion@infonete.com";
@@ -267,11 +268,10 @@ function validarSuscribirse($usuario, $numero, $codigoSeguridad){
 		if(!$connection){
 			return "Error del servidor, intente nuevamente más tarde...";
 		}
-		$consulta = "SELECT suscriptor FROM usuario WHERE usuario='$usuario'";
-		$resultado = mysqli_query($connection, $consulta);
-		$columna=mysqli_fetch_array($resultado);
-		if(  $columna['suscriptor']==false ){
-			$consulta = "UPDATE usuario SET suscriptor=true WHERE usuario='$usuario'";
+		$consulta = obtenerSuscripcion($usuario, $publicacion);
+		if($consulta==false){
+		    $idPublicacion = obtenerIdDePublicacion($publicacion);
+			$consulta = "INSERT INTO suscripcion (idPublicacion, usuario) VALUES ('$idPublicacion', '$usuario')";
 			if(mysqli_query($connection,$consulta) ){
 				mysqli_close($connection);
 				return "¡Suscripción exitosa!";
@@ -292,7 +292,6 @@ function validarSuscribirse($usuario, $numero, $codigoSeguridad){
 
 function obtenerRolUsuario($userName){
 	$credenciales=obtenerCredencialesArchivoINI("../database.ini");
-	$email = "administracion@infonete.com";
 
 	$connection = mysqli_connect($credenciales['host'], $credenciales['user'], $credenciales['pass'],'pw2');
 
@@ -306,14 +305,14 @@ function obtenerRolUsuario($userName){
 			mysqli_close($connection);
 			return null;
 		}else{
-			$consulta = "SELECT rol FROM usuario WHERE usuario='$userName'";
+			$consulta = "SELECT rol FROM usuario WHERE usuario.usuario='$userName'";
 			$resultado = mysqli_query($connection, $consulta);
 			if ($resultado) {
 				$columna=mysqli_fetch_array($resultado);
 				if($columna){
-						mysqli_close($connection);
-						return $columna['rol'];
-					}
+                    mysqli_close($connection);
+                    return $columna['rol'];
+				}
 			}
 		}
 		mysqli_close($connection);
@@ -425,12 +424,11 @@ function obtenerLasXNoticiasMasDescargadas($numeroX){
 		}else{
 			$consulta = "SELECT tituloForm, subtituloForm, imagenJPG FROM noticias WHERE estado='aceptada' ORDER BY cantidadDescargas DESC LIMIT $numeroX";
 			$resultado = mysqli_query($connection, $consulta);
-			$retorno;
 			if ($resultado) {
 				while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC)){
 					$retorno[]=$fila;
-				}
-				/*foreach($nuevo_array as $fila){
+				}/*
+				foreach($nuevo_array as $fila){
 					foreach($fila as $columna ){
 						$retorno[]=$columna;
 					}

@@ -1,8 +1,8 @@
 <?php
 	session_start();
 	include_once("validar.php");
-	include_once("./cargarNoticias.php");
-	include_once('../fpdf/fpdf.php');
+	include_once("cargarNoticias.php");
+    include_once('../fpdf/fpdf.php');
 	
 	$campos=explode("|", utf8_decode($_POST['pdf']));
 	
@@ -83,6 +83,7 @@
 			$rol=obtenerRolUsuario($_SESSION['usuario']);
 			header(headerSegunRol($rol));
 		}else{
+            $rol=obtenerRolUsuario($_SESSION['usuario']);
 			header("Location: index".$rol.".php");
 		}
 	}

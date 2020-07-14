@@ -85,21 +85,19 @@
 					<label for="subject">Cuerpo de la noticia (usar formato HTML):</label>
 					<textarea id="subject" name="cuerpoForm" placeholder="Escribe algo..." style="height:200px" required></textarea>
 					
-					<label>Seleccionar publicación:</label>
-                    <select name="publicacionForm">
-                        <?php
-                        $resultado = obtenerPublicaciones("aprobada");
-                        if($resultado){
-                            $resultado->data_seek(0);
+					<label>Seleccionar publicación:</label><br>
+                    <?php
+                    $resultado = obtenerPublicaciones("aprobada");
+                    if($resultado){
+                        $resultado->data_seek(0);
 
-                            while($fila = $resultado->fetch_assoc()){
-                                echo "<option value='" . $fila['nombre'] . "'>" . $fila['nombre'] . "</option>";
-                            }
-
-                            $resultado->free();
+                        while($fila = $resultado->fetch_assoc()){
+                            echo "<input type=\"radio\" name=\"publicacionForm\" value=\"" . $fila["nombre"] . "\" required/>&nbsp;" . $fila["nombre"] . "<br>";
                         }
-                        ?>
-                    </select>
+
+                        $resultado->free();
+                    }
+                    ?><br>
 					<input type="submit" value="Enviar">
 				</form>
 		

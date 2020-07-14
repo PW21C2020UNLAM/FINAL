@@ -31,30 +31,28 @@
 	</style>
 
 	<body class="w3-light-grey">
+        <!-- Header -->
+        <header class="w3-container w3-center w3-padding-48 w3-white">
+            <a href="index.php" style="text-decoration-line:none"><h1 class="w3-xxxlarge"><b>Infonete S.A.</b></h1></a>
+            <h6>Bienvenido al sitio de <span class="w3-tag">Infonete S.A.</span>
+                <?php //echo obtenerFechaYHoraActual()?>
+            </h6>
+        </header>
 
 		<!-- Navigation bar with social media icons -->
 		<div class="w3-bar w3-black w3-hide-small">
 			<div class="w3-bar-item">Contenidista: <?php echo $user?></div>
-            <a href="cargarNuevaPublicacion.php" class="w3-bar-item w3-button">Nueva publicación</a>
-			<a href="cargarNuevaNoticia.php" class="w3-bar-item w3-button">Nueva noticia</a>
-            <a href="publicacionesRechazadas.php" class="w3-bar-item w3-button">Publicaciones rechazadas</a>
-			<a href="noticiasRechazadas.php" class="w3-bar-item w3-button">Noticias rechazadas</a>
-			<a href="cambiarClave.php" class="w3-bar-item w3-button">Cambiar clave</a>
-			<a href="eliminarCuenta.php" class="w3-bar-item w3-button">Eliminar cuenta</a>
-			<a href="logout.php" class="w3-bar-item w3-button">Salir</a>
+            <a href="miPerfil.php" class="w3-bar-item w3-button">Mi Perfil</a>
+            <a href="cargarNuevaPublicacion.php" class="w3-bar-item w3-button">Nueva Publicación</a>
+			<a href="cargarNuevaNoticia.php" class="w3-bar-item w3-button">Nueva Noticia</a>
+            <a href="publicacionesRechazadas.php" class="w3-bar-item w3-button">Publicaciones Rechazadas</a>
+			<a href="noticiasRechazadas.php" class="w3-bar-item w3-button">Noticias Rechazadas</a>
+			<a href="logout.php" class="w3-bar-item w3-button">Cerrar Sesión</a>
 		</div>
 
 		<!-- w3-content defines a container for fixed size centered content, 
 		and is wrapped around the whole page content, except for the footer in this example -->
 		<div class="w3-content" style="max-width:1600px">
-
-			<!-- Header -->
-			<header class="w3-container w3-center w3-padding-48 w3-white">
-                <a href="index.php" style="text-decoration-line:none"><h1 class="w3-xxxlarge"><b>Infonete S.A.</b></h1></a>
-				<h6>Bienvenido al sitio de <span class="w3-tag">Infonete S.A.</span>
-					<?php //echo obtenerFechaYHoraActual()?>
-				</h6>
-			</header>
 
             <?php
             $resultado = obtenerPublicaciones("aprobada");
@@ -91,7 +89,13 @@
 				<!-- Blog entries -->
 				<div class="w3-col l8 s12">
 
-				<?php mostrarNoticias(($_SESSION['usuario'])); ?>
+                <?php
+                if(isset($_GET['publicacion'])){
+                    mostrarNoticias(($_SESSION['usuario']), $_GET['publicacion']);
+                } else {
+                    echo "<div class=\"w3-center\"></div><hr>";
+                }
+                ?>
 
 				<!-- END BLOG ENTRIES -->
 				</div>

@@ -32,15 +32,7 @@
 	<body class="w3-light-grey">
 		<!-- Navigation bar with social media icons -->
 		<div class="w3-bar w3-black w3-hide-small">
-            <?php
-                if ($rol=="contenidista"){
-                    echo "<div class=\"w3-bar-item\">Contenidista: $user</div>";
-                } else if ($rol=="admin"){
-                    echo "<div class=\"w3-bar-item\">Admin: $user</div>";
-                }
-            ?>
-			<a href="noticiasPendientes.php" class="w3-bar-item w3-button">Volver</a>
-			<a href="logout.php" class="w3-bar-item w3-button">Salir</a>
+			<a href="index.php" class="w3-bar-item w3-button">Volver</a>
 		</div>
 
 		<!-- w3-content defines a container for fixed size centered content, 

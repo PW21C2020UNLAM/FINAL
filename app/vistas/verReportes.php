@@ -47,10 +47,18 @@
 								<div class="w3-container w3-black">
 									<h2 class="w3-lobster">Estadísticas de la página</h2>
 								</div>
-									<br><label class="w3-text-brown w3-left">Suscriptores (suscriptos sobre registrados): <?php echo obtenerPorcentajeDeSuscriptores();?>%</label><br>
-									<br><label class="w3-text-brown w3-left">Total de Contenidistas: <?php echo obtenerCantidadContenidistasRegistrados();?></label><br><br>
-									<a href="index.php" class="w3-bar-item w3-button w3-black">Volver</a>
-									<a href="index.php" class="w3-bar-item w3-button w3-black">Ver en PDF</a>
+                                <br><label class="w3-text-brown w3-left">Cantidad de lectores: <?php echo obtenerCantidadDeLectores();?></label>
+                                <br><label class="w3-text-brown w3-left">Porcentaje de lectores suscriptos: <?php echo obtenerPorcentajeDeSuscriptores();?>%</label>
+                                <br><label class="w3-text-brown w3-left">Cantidad de contenidistas: <?php echo obtenerCantidadContenidistasRegistrados();?></label>
+                                <br><label class="w3-text-brown w3-left">Total de noticias aceptadas: <?php echo obtenerTotalNoticias("aceptada");?></label>
+                                <br><label class="w3-text-brown w3-left">Total de noticias pendientes: <?php echo obtenerTotalNoticias("pendiente");?></label>
+                                <br><label class="w3-text-brown w3-left">Total de noticias rechazadas: <?php echo obtenerTotalNoticias("rechazada");?></label>
+                                <br><label class="w3-text-brown w3-left">Total de publicaciones aprobadas: <?php echo obtenerTotalPublicaciones("aprobada");?></label>
+                                <br><label class="w3-text-brown w3-left">Total de publicaciones pendientes: <?php echo obtenerTotalPublicaciones("pendiente");?></label>
+                                <br><label class="w3-text-brown w3-left">Total de publicaciones rechazadas: <?php echo obtenerTotalPublicaciones("rechazada");?></label><br>
+
+                                <?php echo mostrarReportesEnPDF($user); ?>
+                                <!-- <a href="index.php" class="w3-bar-item w3-button w3-black">Ver en PDF</a> -->
 							</div>
 						</div> 
 					</div>
